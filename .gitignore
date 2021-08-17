@@ -1,2 +1,4 @@
 .DS_Store
 NOTES.md
+Build/Debug/
+Build/TestResult.xml

@@ -25,9 +25,7 @@ If you have a predefined integer to use as a seed value, pass it in using the `S
 ```cs
 int aSeed = 72365472659210;
 
-Grammar grammar = new Grammar(
-    Seed = aSeed
-);
+Grammar grammar = new Grammar(Seed: aSeed);
 ```
 
 You can also pass in an instance of `Random` with the `Rng` option.
@@ -36,7 +34,7 @@ You can also pass in an instance of `Random` with the `Rng` option.
 int bSeed = 82673452385460;
 
 Grammar grammar = new Grammar(
-    Rng = new System.Random(bSeed)
+    Rng: new System.Random(bSeed)
 );
 ```
 
@@ -68,8 +66,8 @@ The `Start` and `Rule` methods are overloaded, supporting both arrays of strings
 Grammar plums = new Grammar(P => {
     P.Rule("single", "I have eaten the plums")
      .Rule("alternate", new[] {
-      "I have eaten the plums",
-      "That were in the icebox"
+        "I have eaten the plums",
+        "That were in the icebox"
     });
 });
 ```

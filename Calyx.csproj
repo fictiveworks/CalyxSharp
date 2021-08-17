@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="2.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<AssemblyName>Calyx</AssemblyName>
+		<SourcePath>Source</SourcePath>
+		<TestPath>Test</TestPath>
+		<OutputPath>Build</OutputPath>
+		<LibraryPath>Libraries</LibraryPath>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="$(SourcePath)/Calyx/*.cs"/>
+		<Compile Include="$(SourcePath)/Calyx/Production/*.cs"/>
+		<Compile Include="$(SourcePath)/Calyx/Syntax/*.cs"/>
+	</ItemGroup>
+	<ItemGroup>
+		<Test Include="$(TestPath)/*.cs"/>
+		<Test Include="$(TestPath)/Production/*.cs"/>
+		<Test Include="$(TestPath)/Syntax/*.cs"/>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="$(LibraryPath)/nunit.framework.dll"/>
+	</ItemGroup>
+	<Target Name="Clean">
+		<RemoveDir Directories="$(OutputPath)" />
+	</Target>
+	<Target Name="Build">
+		<CallTarget Targets="Clean"/>
+		<MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')"/>
+		<MakeDir Directories="$(OutputPath)/Release" Condition="!Exists('$(OutputPath)/Release')"/>
+		<Csc Sources="@(Compile)"
+			 TargetType="library"
+			 OutputAssembly="$(OutputPath)/Release/$(AssemblyName).dll"
+			 EmitDebugInformation="false"
+			 Optimize="true"
+			 DocumentationFile="$(OutputPath)/Release/$(AssemblyName).xml"
+			 DefineConstants="NDEBUG"
+		/>
+	</Target>
+	<Target Name="BuildTest">
+		<CallTarget Targets="Clean"/>
+		<MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')"/>
+		<MakeDir Directories="$(OutputPath)/Debug" Condition="!Exists('$(OutputPath)/Debug)')"/>
+		<Copy SourceFiles="$(LibraryPath)/nunit.framework.dll" DestinationFolder="$(OutputPath)/Debug"/>
+		<Csc Sources="@(Compile);@(Test)"
+			 Resources="@(Resource)"
+			 References="@(Reference)"
+			 TargetType="library"
+			 OutputAssembly="$(OutputPath)/Debug/$(AssemblyName).dll"
+			 EmitDebugInformation="true"
+		/>
+	</Target>
+	<Target Name="Test">
+		<CallTarget Targets="BuildTest"/>
+		<Exec Command="$(LibraryPath)/nunitlite-runner.exe $(OutputPath)/Debug/$(AssemblyName).dll"/>
+	</Target>
+</Project>

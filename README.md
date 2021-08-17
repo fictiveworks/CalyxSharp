@@ -82,6 +82,14 @@ Result result = plums.Generate();
 Console.WriteLine(result.Text);
 ```
 
+To append template context rules at runtime, you can pass a transient block of rules to the grammar as part of the call to `Generate`. This can be useful if you want to mix data from different life cycles of your program state but (presumably—we haven’t performance tested this yet!) will make grammar generation much slower.
+
+```cs
+Result result = plums.Generate();
+
+Console.WriteLine(result.Text);
+```
+
 ### Other Features
 
 Not all the features are ported over yet and the template syntax is not yet documented but you can read about the general format and structure of the language design in the original [SYNTAX](https://github.com/maetl/calyx/blob/main/SYNTAX.md) document.

@@ -26,9 +26,9 @@ namespace Calyx.Test
     {
       Result result = new Result(this.AtomTemplateTree());
 
-      Assert.AreEqual(Exp.Template, result.Tree.symbol);
-      Assert.AreEqual(Exp.Atom, result.Tree.tail[0].symbol);
-      Assert.AreEqual("A T O M", result.Tree.tail[0].term);
+      Assert.That(result.Tree.symbol, Is.EqualTo(Exp.Template));
+      Assert.That(result.Tree.tail[0].symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(result.Tree.tail[0].term, Is.EqualTo("A T O M"));
     }
 
     public void FlattensExpressionTreeTest()

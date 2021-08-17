@@ -13,7 +13,7 @@ namespace Calyx.Test
     {
       Expansion exp = new Expansion(Exp.Atom, "T E R M");
 
-      Assert.AreEqual("T E R M", exp.term);
+      Assert.That(exp.term, Is.EqualTo("T E R M"));
     }
 
     [Test]
@@ -26,7 +26,7 @@ namespace Calyx.Test
       });
 
       StringBuilder atoms = exp.Flatten();
-      Assert.AreEqual("-ONE--TWO--THREE-", atoms.ToString());
+      Assert.That(atoms.ToString(), Is.EqualTo("-ONE--TWO--THREE-"));
     }
   }
 }

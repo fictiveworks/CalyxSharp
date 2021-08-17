@@ -24,15 +24,16 @@ namespace Calyx.Test
     public void RngFromGivenSeedTest()
     {
       Options opts = new Options(seed: 1234567890);
-      Assert.AreEqual(54, opts.Rng.Next(100));
-      Assert.AreEqual(42, opts.Rng.Next(100));
+      Assert.That(opts.Rng.Next(100), Is.EqualTo(54));
+      Assert.That(opts.Rng.Next(100), Is.EqualTo(42));
     }
 
     [Test]
     public void NamedArgsInAnyOrderTest()
     {
       Options opts = new Options(strict: true, seed: 1234567890);
-      Assert.AreEqual(54, opts.Rng.Next(100));
+      Assert.That(opts.Rng.Next(100), Is.EqualTo(54));
+      Assert.That(opts.Rng.Next(100), Is.EqualTo(42));
       Assert.True(opts.Strict);
     }
   }

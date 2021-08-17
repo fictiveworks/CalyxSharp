@@ -8,12 +8,20 @@ namespace Calyx.Test
   public class GrammarTest
   {
     [Test]
-    public void EmptyDefaultOptionsTest()
+    public void EmptyDefaultTextTest()
     {
       Grammar grammar = new Grammar();
       Result result = grammar.Generate();
 
-      Assert.AreEqual("", result.Text);
+      Assert.That(result.Text, Is.EqualTo(""));
+    }
+
+    public void EmptyDefaultTreeTest()
+    {
+      Grammar grammar = new Grammar();
+      Result result = grammar.Generate();
+
+      Assert.That(result.Tree, Is.InstanceOf<Expansion>());
     }
 
     [Test]
@@ -32,12 +40,12 @@ namespace Calyx.Test
     public void ConstructorRuleTest()
     {
       Grammar grammar = new Grammar(def => {
-        def.Rule("start", new[] { "++++|||++++" });
+        def.Rule("start", new[] { "#|||#" });
       });
 
       Result result = grammar.Generate();
 
-      Assert.AreEqual("++++|||++++", result.Text);
+      Assert.That(result.Text, Is.EqualTo("#|||#"));
     }
 
     [Test]
@@ -50,7 +58,7 @@ namespace Calyx.Test
 
       Result result = grammar.Generate();
 
-      Assert.AreEqual("++++|||++++", result.Text);
+      Assert.That(result.Text, Is.EqualTo("++++|||++++"));
     }
 
     [Test]
@@ -63,10 +71,8 @@ namespace Calyx.Test
 
       Result result = grammar.Generate();
 
-      Assert.AreEqual("~~~~|||~~~~", result.Text);
+      Assert.That(result.Text, Is.EqualTo("~~~~|||~~~~"));
     }
-
-
 
     // [Test]
     // public void GrammarMemoFeatureTest()

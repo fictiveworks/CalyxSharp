@@ -2,6 +2,7 @@ using Calyx;
 using Calyx.Errors;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace Calyx.Test
 {
@@ -30,8 +31,10 @@ namespace Calyx.Test
       Grammar grammar = new Grammar(strict: true);
 
       UndefinedRule undefined = Assert.Throws<UndefinedRule>(
-        delegate { Result result = grammar.Generate(); });
-
+        delegate {
+          Result result = grammar.Generate();
+        }
+      );
 
       Assert.That(undefined.Message, Is.EqualTo("undefined rule: 'start'"));
     }
@@ -72,6 +75,50 @@ namespace Calyx.Test
       Result result = grammar.Generate();
 
       Assert.That(result.Text, Is.EqualTo("~~~~|||~~~~"));
+    }
+
+    [Test]
+    public void CustomStartSymbolTest()
+    {
+      Grammar grammar = new Grammar(def => {
+        def.Rule("banner", "{tilde}|||{tilde}")
+           .Rule("tilde", "~~~~");
+      });
+
+      Result result = grammar.Generate("banner");
+
+      Assert.That(result.Text, Is.EqualTo("~~~~|||~~~~"));
+    }
+
+    [Test]
+    public void GenerateRuleAndContextTest()
+    {
+      Grammar grammar = new Grammar();
+
+      grammar.Rule("doubletilde", "{tilde}{tilde}");
+
+      Dictionary<string, string[]> context = new Dictionary<string, string[]>() {
+        { "tilde", new[] { "~~~~" } }
+      };
+
+      Result result = grammar.Generate("doubletilde", context);
+
+      Assert.That(result.Text, Is.EqualTo("~~~~~~~~"));
+    }
+
+    [Test]
+    public void GenerateOnlyContextTest()
+    {
+      Grammar grammar = new Grammar();
+
+      Dictionary<string, string[]> context = new Dictionary<string, string[]>() {
+        { "doubletilde", new[] { "{tilde}{tilde}" } },
+        { "tilde", new[] { "~~~~" } }
+      };
+
+      Result result = grammar.Generate("doubletilde", context);
+
+      Assert.That(result.Text, Is.EqualTo("~~~~~~~~"));
     }
 
     // [Test]

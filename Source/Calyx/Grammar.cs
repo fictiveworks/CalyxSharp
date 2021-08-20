@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Calyx
 {
@@ -62,6 +63,16 @@ namespace Calyx
     public Result Generate(string startSymbol)
     {
       return new Result(this.registry.Evaluate(startSymbol));
+    }
+
+    public Result Generate(Dictionary<string, string[]> context)
+    {
+      return new Result(this.registry.Evaluate("start", context));
+    }
+
+    public Result Generate(string startSymbol, Dictionary<string, string[]> context)
+    {
+      return new Result(this.registry.Evaluate(startSymbol, context));
     }
   }
 }

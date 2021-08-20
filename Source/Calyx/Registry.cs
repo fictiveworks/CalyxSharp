@@ -6,6 +6,7 @@ namespace Calyx
   {
     private Options options;
     private Dictionary<string, Rule> rules;
+    private Dictionary<string, Rule> context;
 
     public Registry(Options options = null)
     {
@@ -33,12 +34,34 @@ namespace Calyx
       return rootExpression;
     }
 
+    public Expansion Evaluate(string startSymbol, Dictionary<string, string[]> context)
+    {
+      this.ResetEvaluationContext();
+
+      foreach(KeyValuePair<string, string[]> rule in context) {
+        // if (this.rules[key] && this.options.Strict) {
+        //   throw new Error(`DuplicateRule: ${key}`)
+        // }
+
+        this.context[rule.Key] = Rule.Build(rule.Key, rule.Value, this);
+      }
+
+      Expansion rootExpression = new Expansion(
+        Exp.Result,
+        this.Expand(startSymbol).Evaluate(this.options)
+      );
+
+      return rootExpression;
+    }
+
     public Rule Expand(string symbol)
     {
       Rule production = null;
 
       if (this.rules.ContainsKey(symbol)) {
         production = this.rules[symbol];
+      } else if (this.context.ContainsKey(symbol)) {
+        production = this.context[symbol];
       } else {
         if (this.options.Strict) {
           throw new Errors.UndefinedRule(symbol);
@@ -56,6 +79,7 @@ namespace Calyx
 
     private void ResetEvaluationContext()
     {
+      this.context = new Dictionary<string, Rule>();
       //this.memos =
       //this.uniques =
     }

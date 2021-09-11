@@ -61,5 +61,34 @@ namespace Calyx.Test.Syntax
       Assert.AreEqual(Exp.Atom, exp.tail[3].symbol);
       Assert.AreEqual(" three", exp.tail[3].term);
     }
+
+    [Test]
+    public void TemplateWithSingleMemoExpansion()
+    {
+      Registry registry = new Registry();
+      registry.DefineRule("one", new[] { "ONE", "One", "1" });
+      registry.ResetEvaluationContext();
+      TemplateNode node = TemplateNode.Parse("{@one}{@one}{@one}", registry);
+
+      Expansion exp = node.Evaluate(new Options());
+      Assert.That(exp.symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.tail[0].symbol, Is.EqualTo(Exp.Memo));
+      Assert.That(exp.tail[0].tail[0].symbol, Is.EqualTo(Exp.UniformBranch));
+      Assert.That(exp.tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.tail[0].tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.tail[1].symbol, Is.EqualTo(Exp.Memo));
+      Assert.That(exp.tail[1].tail[0].symbol, Is.EqualTo(Exp.UniformBranch));
+      Assert.That(exp.tail[1].tail[0].tail[0].symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.tail[1].tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.tail[2].symbol, Is.EqualTo(Exp.Memo));
+      Assert.That(exp.tail[2].tail[0].symbol, Is.EqualTo(Exp.UniformBranch));
+      Assert.That(exp.tail[2].tail[0].tail[0].symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.tail[2].tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Atom));
+
+      string firstTerm = exp.tail[0].tail[0].tail[0].tail[0].term;
+      string secondTerm = exp.tail[1].tail[0].tail[0].tail[0].term;
+      string thirdTerm = exp.tail[2].tail[0].tail[0].tail[0].term;
+      Assert.That(new[] { firstTerm, secondTerm }, Is.All.EqualTo(thirdTerm));
+    }
   }
 }

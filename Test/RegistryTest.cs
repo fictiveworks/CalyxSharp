@@ -70,5 +70,23 @@ namespace Calyx.Test
       Assert.That(exp.tail[0].tail[0].tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Atom));
       Assert.That(exp.tail[0].tail[0].tail[0].tail[0].tail[0].term, Is.EqualTo("atom"));
     }
+
+    [Test]
+    public void MemoizedRulesReturnIdenticalExpansion()
+    {
+      Registry registry = new Registry(new Options(seed: 556677));
+      registry.DefineRule("start", new[] { "{@atom}{@atom}{@atom}" });
+      registry.DefineRule("atom", new[] { ",", ":", ";" });
+      Expansion exp = registry.Evaluate("start");
+      Assert.That(exp.symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp.tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Memo));
+      Assert.That(exp.tail[0].tail[0].tail[1].symbol, Is.EqualTo(Exp.Memo));
+      Assert.That(exp.tail[0].tail[0].tail[2].symbol, Is.EqualTo(Exp.Memo));
+
+      string term1 = exp.tail[0].tail[0].tail[0].tail[0].term;
+      string term2 = exp.tail[0].tail[0].tail[1].tail[0].term;
+      string term3 = exp.tail[0].tail[0].tail[2].tail[0].term;
+      Assert.That(new[] { term1, term2 }, Is.All.EqualTo(term3));
+    }
   }
 }

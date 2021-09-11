@@ -11,7 +11,8 @@ namespace Calyx
     AffixTable,
     Template,
     Expression,
-    Atom
+    Atom,
+    Memo
   }
 
   public class Expansion

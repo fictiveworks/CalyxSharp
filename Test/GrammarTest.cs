@@ -121,17 +121,17 @@ namespace Calyx.Test
       Assert.That(result.Text, Is.EqualTo("~~~~~~~~"));
     }
 
-    // [Test]
-    // public void GrammarMemoFeatureTest()
-    // {
-    //   Grammar grammar = new Grammar(def => {
-    //     def.Start(new[] { "{@plus}{@plus}" })
-    //        .Rule("plus", new[] { "++++", "----", "^^^^" });
-    //   });
-    //
-    //   Result result = grammar.Generate();
-    //
-    //   Assert.AreEqual("++++///++++", result.Text);
-    // }
+    [Test]
+    public void MemoizationExpressionTest()
+    {
+      Grammar grammar = new Grammar(def => {
+        def.Start(new[] { "{@glyph}|{@glyph}" })
+           .Rule("glyph", new[] { "+", "-", "^" });
+      });
+
+      Result result = grammar.Generate();
+
+      Assert.That(result.Text, Is.EqualTo("+|+") | Is.EqualTo("-|-") | Is.EqualTo("^|^"));
+    }
   }
 }

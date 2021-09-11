@@ -34,7 +34,7 @@ namespace Calyx.Syntax
             concatNodes.Add(new ExpressionChain(components, registry));
           } else {
             // Generate a standalone non-terminal expression
-            concatNodes.Add(new ExpressionNode(components[0], registry));
+            concatNodes.Add(ExpressionNode.Parse(components[0], registry));
           }
         } else {
           // Collect a string terminal

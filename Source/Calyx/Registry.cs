@@ -7,13 +7,12 @@ namespace Calyx
     private Options options;
     private Dictionary<string, Rule> rules;
     private Dictionary<string, Rule> context;
+    private Dictionary<string, Expansion> memos;
 
     public Registry(Options options = null)
     {
       this.options = (options != null) ? options : new Options();
       this.rules = new Dictionary<string, Rule>();
-      //this.memos =
-      //this.uniques =
     }
 
     public void DefineRule(string name, string[] productions)
@@ -54,6 +53,15 @@ namespace Calyx
       return rootExpression;
     }
 
+    public Expansion MemoizeExpansion(string symbol)
+    {
+      if (!this.memos.ContainsKey(symbol)) {
+        this.memos.Add(symbol, this.Expand(symbol).Evaluate(this.options));
+      }
+
+      return this.memos[symbol];
+    }
+
     public Rule Expand(string symbol)
     {
       Rule production = null;
@@ -77,10 +85,10 @@ namespace Calyx
     //   delegate filter component binding somewhere here
     // }
 
-    private void ResetEvaluationContext()
+    public void ResetEvaluationContext()
     {
       this.context = new Dictionary<string, Rule>();
-      //this.memos =
+      this.memos = new Dictionary<string, Expansion>();
       //this.uniques =
     }
   }

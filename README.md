@@ -14,6 +14,41 @@ msbuild
 msbuild Calyx.csproj -t:Test
 ```
 
+## Install
+
+### Unity
+
+Create a new Unity project or open an existing project.
+
+In the `Assets` directory of your project, create a new directory called `Libraries` (or adapt to suit your preferred style of organising).
+
+Download `Calyx.dll` from the compiled resources under [Build/Release](https://eng-git.canterbury.ac.nz/mor30/calyx-sharp/-/tree/main/Build/Release) on eng-git.
+
+Move `Calyx.dll` into the `Assets/Libraries` path of your Unity project.
+
+Create a new C# Script in your Unity project and assign it to a new empty game object (or add it to an existing game object in your scene).
+
+Add the following grammar script to the `Awake()` or `Start()` hook of your script.
+
+```cs
+using UnityEngine;
+using Calyx;
+
+public class TextSample : MonoBehaviour
+{
+  void Start()
+  {
+    Grammar hello = new Grammar(P => {
+      P.Start("Hello from Unity");
+    });
+
+    Debug.Log(hello.Generate().text);
+  }
+}
+```
+
+Run the scene in the Unity editor and you should see the phrase `Hello from Unity` appear in the console.
+
 ## Usage
 
 ### Configuring the PRNG

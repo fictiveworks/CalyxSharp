@@ -3,7 +3,7 @@ using Calyx;
 
 namespace Calyx.Production
 {
-  public class UniformBranch : Calyx.IProduction
+  public class UniformBranch : Calyx.IProductionBranch
   {
     public static UniformBranch Parse(string[] raw, Registry registry)
     {
@@ -24,6 +24,12 @@ namespace Calyx.Production
     public Expansion Evaluate(Options options)
     {
       int index = options.Rng.Next(this.choices.Length);
+      Expansion tail = this.choices[index].Evaluate(options);
+      return new Expansion(Exp.UniformBranch, tail);
+    }
+
+    public Expansion EvaluateAt(int index, Options options)
+    {
       Expansion tail = this.choices[index].Evaluate(options);
       return new Expansion(Exp.UniformBranch, tail);
     }

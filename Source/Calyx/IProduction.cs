@@ -4,4 +4,9 @@ namespace Calyx
   {
     Expansion Evaluate(Options options);
   }
+
+  public interface IProductionBranch : IProduction
+  {
+    Expansion EvaluateAt(int index, Options options);
+  }
 }

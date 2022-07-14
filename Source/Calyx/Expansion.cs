@@ -12,7 +12,8 @@ namespace Calyx
     Template,
     Expression,
     Atom,
-    Memo
+    Memo,
+    Uniq
   }
 
   public class Expansion

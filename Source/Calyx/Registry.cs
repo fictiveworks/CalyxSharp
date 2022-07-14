@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Calyx
 {
@@ -8,6 +9,7 @@ namespace Calyx
     private Dictionary<string, Rule> rules;
     private Dictionary<string, Rule> context;
     private Dictionary<string, Expansion> memos;
+    private Dictionary<string, Cycle> cycles;
 
     public Registry(Options options = null)
     {
@@ -62,6 +64,17 @@ namespace Calyx
       return this.memos[symbol];
     }
 
+    public Expansion UniqueExpansion(string symbol)
+    {
+      // If this symbol has not been expanded as a cycle then register it
+      if (!this.cycles.ContainsKey(symbol)) {
+        int cycleLength = this.Expand(symbol).Length;
+        this.cycles.Add(symbol, new Cycle(this.options, cycleLength));
+      }
+
+      return this.Expand(symbol).EvaluateAt(this.cycles[symbol].Poll(), this.options);
+    }
+
     public Rule Expand(string symbol)
     {
       Rule production = null;
@@ -89,7 +102,40 @@ namespace Calyx
     {
       this.context = new Dictionary<string, Rule>();
       this.memos = new Dictionary<string, Expansion>();
-      //this.uniques =
+      this.cycles = new Dictionary<string, Cycle>();
+    }
+  }
+
+  class Cycle
+  {
+    Options options;
+    int index;
+    List<int> sequence;
+
+    public Cycle(Options options, int count)
+    {
+      this.options = options;
+      this.index = 0;
+      this.sequence = Enumerable.Range(0, count).ToList();
+      this.Shuffle();
+    }
+
+    public void Shuffle()
+    {
+      int current = this.sequence.Count;
+      while (current > 1) {
+        current--;
+        int target = this.options.Rng.Next(current + 1);
+        int swap = this.sequence[target];
+        this.sequence[target] = this.sequence[current];
+        this.sequence[current] = swap;
+      }
+    }
+
+    public int Poll()
+    {
+      // TODO: repeat ad infinitum or reshuffle each time final index is polled?
+      return this.sequence[this.index++ % this.sequence.Count];
     }
   }
 }

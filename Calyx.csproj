@@ -51,6 +51,6 @@
 	</Target>
 	<Target Name="Test">
 		<CallTarget Targets="BuildTest"/>
-		<Exec Command="$(LibraryPath)/nunitlite-runner.exe $(OutputPath)/Debug/$(AssemblyName).dll --work:'$(OutputPath)/'"/>
+		<Exec Command="$(LibraryPath)\nunitlite-runner.exe $(OutputPath)/Debug/$(AssemblyName).dll --work:'$(OutputPath)/'"/>
 	</Target>
 </Project>

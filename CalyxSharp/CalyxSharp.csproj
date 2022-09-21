@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyVersion>0.3.0.0</AssemblyVersion>
+    <Copyright>Copyright © 2021 Fictiveworks</Copyright>
+    <Title>Calyx</Title>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AssembyInfo.cs" />
+  </ItemGroup>
+
+</Project>

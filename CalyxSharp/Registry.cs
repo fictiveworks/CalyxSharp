@@ -106,7 +106,7 @@ namespace Calyx
     }
   }
 
-  class Cycle
+  public class Cycle
   {
     Options options;
     int index;

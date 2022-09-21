@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -113,6 +114,9 @@ namespace Calyx
 
     public Cycle(Options options, int count)
     {
+      if (count < 1) {
+        throw new ArgumentException("'count' must be greater than zero");
+      }
       this.options = options;
       index = 0;
       sequence = Enumerable.Range(0, count).ToList();

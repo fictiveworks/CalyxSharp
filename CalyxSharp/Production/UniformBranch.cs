@@ -1,9 +1,6 @@
-using System;
-using Calyx;
-
 namespace Calyx.Production
 {
-  public class UniformBranch : Calyx.IProductionBranch
+  public class UniformBranch : IProductionBranch
   {
     public static UniformBranch Parse(string[] raw, Registry registry)
     {

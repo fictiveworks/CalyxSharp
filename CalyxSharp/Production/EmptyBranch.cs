@@ -1,9 +1,6 @@
-using System;
-using Calyx;
-
 namespace Calyx.Production
 {
-  public class EmptyBranch : Calyx.IProductionBranch
+  public class EmptyBranch : IProductionBranch
   {
     public Expansion Evaluate(Options options)
     {

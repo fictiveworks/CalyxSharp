@@ -1,32 +1,31 @@
-using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Calyx;
 
 namespace Calyx.Syntax
 {
-  public class TemplateNode : Calyx.IProduction
+  public class TemplateNode : IProduction
   {
     private static string EXPRESSION = "(\\{[A-Za-z0-9_@$<>\\.]+\\})";
     private static string START_TOKEN = "{";
     private static string END_TOKEN = "}";
     private static string DEREF_TOKEN = "\\.";
 
+    private Registry registry;
+    private List<IProduction> concatNodes;
     public static TemplateNode Parse(string raw, Registry registry)
     {
-      string[] fragments = Regex.Split(raw, TemplateNode.EXPRESSION);
+      string[] fragments = Regex.Split(raw, EXPRESSION);
       List<IProduction> concatNodes = new List<IProduction>();
 
       foreach (string atom in fragments) {
         if (String.IsNullOrEmpty(atom)) continue;
 
         // Check if this is a template expression or atom
-        if (atom.StartsWith(TemplateNode.START_TOKEN) && atom.EndsWith(TemplateNode.END_TOKEN)) {
+        if (atom.StartsWith(START_TOKEN) && atom.EndsWith(END_TOKEN)) {
           // Remove delimiters
           string expression = atom.Substring(1, atom.Length - 2);
 
           // Dereference the expression as an array of filter components
-          string[] components = Regex.Split(expression, TemplateNode.DEREF_TOKEN);
+          string[] components = Regex.Split(expression, DEREF_TOKEN);
 
           // Check if we have a post-processing chain
           if (components.Length > 1) {
@@ -44,9 +43,6 @@ namespace Calyx.Syntax
 
       return new TemplateNode(concatNodes, registry);
     }
-
-    private Registry registry;
-    private List<IProduction> concatNodes;
 
     public TemplateNode(List<IProduction> concatNodes, Registry registry)
     {

@@ -16,13 +16,13 @@ namespace Calyx
     public Options(Random rng = DefaultRng, int seed = DefaultSeed, bool strict = DefaultStrict)
     {
       if (seed > 0) {
-        this.Rng = new Random(seed);
-        this.Seed = seed;
+        Rng = new Random(seed);
+        Seed = seed;
       } else {
-        this.Rng = new Random();
+        Rng = new Random();
       }
 
-      this.Strict = strict;
+      Strict = strict;
     }
   }
 }

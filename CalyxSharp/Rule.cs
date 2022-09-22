@@ -10,7 +10,7 @@ namespace Calyx
     public Rule(string term, IProductionBranch branch)
     {
       this.term = term;
-      this.production = branch;
+      production = branch;
     }
 
     public static Rule Build(string term, string[] productions, Registry registry)
@@ -28,12 +28,12 @@ namespace Calyx
 
     public Expansion Evaluate(Options options)
     {
-      return this.production.Evaluate(options);
+      return production.Evaluate(options);
     }
 
     public Expansion EvaluateAt(int index, Options options)
     {
-      return this.production.EvaluateAt(index, options);
+      return production.EvaluateAt(index, options);
     }
   }
 }

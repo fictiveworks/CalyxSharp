@@ -11,17 +11,17 @@ namespace Calyx
 
     public Expansion Tree
     {
-      get => this.root;
+      get => root;
     }
 
     public string Text
     {
-      get => this.root.Flatten().ToString();
+      get => root.Flatten().ToString();
     }
 
     public override string ToString()
     {
-      return this.Text;
+      return Text;
     }
   }
 }

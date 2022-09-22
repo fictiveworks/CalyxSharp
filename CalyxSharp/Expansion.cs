@@ -1,5 +1,4 @@
 using System.Text;
-using System.Collections.Generic;
 
 namespace Calyx
 {
@@ -24,36 +23,36 @@ namespace Calyx
 
     public Expansion(Exp symbol, Expansion tail)
     {
-      this.Symbol = symbol;
-      this.Tail = new List<Expansion>();
-      this.Tail.Add(tail);
+      Symbol = symbol;
+      Tail = new List<Expansion>();
+      Tail.Add(tail);
     }
 
     public Expansion(Exp symbol, string term)
     {
-      this.Symbol = symbol;
-      this.Term = term;
+      Symbol = symbol;
+      Term = term;
     }
 
     public Expansion(Exp symbol, List<Expansion> tail)
     {
-      this.Symbol = symbol;
-      this.Tail = tail;
+      Symbol = symbol;
+      Tail = tail;
     }
 
     public StringBuilder Flatten()
     {
       StringBuilder concat = new StringBuilder();
-      this.CollectAtoms(concat);
+      CollectAtoms(concat);
       return concat;
     }
 
     public void CollectAtoms(StringBuilder concat)
     {
-      if (this.Symbol == Exp.Atom) {
-        concat.Append(this.Term);
+      if (Symbol == Exp.Atom) {
+        concat.Append(Term);
       } else {
-        foreach (Expansion exps in this.Tail) {
+        foreach (Expansion exps in Tail) {
           exps.CollectAtoms(concat);
         }
       }

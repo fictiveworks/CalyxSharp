@@ -8,5 +8,7 @@ namespace Calyx
   public interface IProductionBranch : IProduction
   {
     Expansion EvaluateAt(int index, Options options);
+
+    int Length { get; }
   }
 }

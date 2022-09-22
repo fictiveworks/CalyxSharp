@@ -21,9 +21,9 @@ namespace Calyx.Test
     {
       Result result = new Result(AtomTemplateTree());
 
-      Assert.That(result.Tree.symbol, Is.EqualTo(Exp.Template));
-      Assert.That(result.Tree.tail[0].symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(result.Tree.tail[0].term, Is.EqualTo("A T O M"));
+      Assert.That(result.Tree.Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(result.Tree.Tail[0].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(result.Tree.Tail[0].Term, Is.EqualTo("A T O M"));
     }
 
     [Test]

@@ -14,9 +14,9 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = node.Evaluate(new Options());
 
-      Assert.AreEqual(Exp.Template, exp.symbol);
-      Assert.AreEqual(Exp.Atom, exp.tail[0].symbol);
-      Assert.AreEqual("one two three", exp.tail[0].term);
+      Assert.AreEqual(Exp.Template, exp.Symbol);
+      Assert.AreEqual(Exp.Atom, exp.Tail[0].Symbol);
+      Assert.AreEqual("one two three", exp.Tail[0].Term);
     }
 
     [Test]
@@ -28,13 +28,13 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = node.Evaluate(new Options());
 
-      Assert.AreEqual(Exp.Template, exp.symbol);
-      Assert.AreEqual(Exp.Expression, exp.tail[0].symbol);
-      Assert.AreEqual(Exp.Template, exp.tail[0].tail[0].symbol);
-      Assert.AreEqual(Exp.Atom, exp.tail[0].tail[0].tail[0].symbol);
-      Assert.AreEqual("ONE", exp.tail[0].tail[0].tail[0].term);
-      Assert.AreEqual(Exp.Atom, exp.tail[1].symbol);
-      Assert.AreEqual(" two three", exp.tail[1].term);
+      Assert.AreEqual(Exp.Template, exp.Symbol);
+      Assert.AreEqual(Exp.Expression, exp.Tail[0].Symbol);
+      Assert.AreEqual(Exp.Template, exp.Tail[0].Tail[0].Symbol);
+      Assert.AreEqual(Exp.Atom, exp.Tail[0].Tail[0].Tail[0].Symbol);
+      Assert.AreEqual("ONE", exp.Tail[0].Tail[0].Tail[0].Term);
+      Assert.AreEqual(Exp.Atom, exp.Tail[1].Symbol);
+      Assert.AreEqual(" two three", exp.Tail[1].Term);
     }
 
     [Test]
@@ -47,19 +47,19 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = node.Evaluate(new Options());
 
-      Assert.AreEqual(Exp.Template, exp.symbol);
-      Assert.AreEqual(Exp.Expression, exp.tail[0].symbol);
-      Assert.AreEqual(Exp.Template, exp.tail[0].tail[0].symbol);
-      Assert.AreEqual(Exp.Atom, exp.tail[0].tail[0].tail[0].symbol);
-      Assert.AreEqual("ONE", exp.tail[0].tail[0].tail[0].term);
-      Assert.AreEqual(Exp.Atom, exp.tail[1].symbol);
-      Assert.AreEqual(" ", exp.tail[1].term);
-      Assert.AreEqual(Exp.Expression, exp.tail[2].symbol);
-      Assert.AreEqual(Exp.Template, exp.tail[2].tail[0].symbol);
-      Assert.AreEqual(Exp.Atom, exp.tail[2].tail[0].tail[0].symbol);
-      Assert.AreEqual("TWO", exp.tail[2].tail[0].tail[0].term);
-      Assert.AreEqual(Exp.Atom, exp.tail[3].symbol);
-      Assert.AreEqual(" three", exp.tail[3].term);
+      Assert.AreEqual(Exp.Template, exp.Symbol);
+      Assert.AreEqual(Exp.Expression, exp.Tail[0].Symbol);
+      Assert.AreEqual(Exp.Template, exp.Tail[0].Tail[0].Symbol);
+      Assert.AreEqual(Exp.Atom, exp.Tail[0].Tail[0].Tail[0].Symbol);
+      Assert.AreEqual("ONE", exp.Tail[0].Tail[0].Tail[0].Term);
+      Assert.AreEqual(Exp.Atom, exp.Tail[1].Symbol);
+      Assert.AreEqual(" ", exp.Tail[1].Term);
+      Assert.AreEqual(Exp.Expression, exp.Tail[2].Symbol);
+      Assert.AreEqual(Exp.Template, exp.Tail[2].Tail[0].Symbol);
+      Assert.AreEqual(Exp.Atom, exp.Tail[2].Tail[0].Tail[0].Symbol);
+      Assert.AreEqual("TWO", exp.Tail[2].Tail[0].Tail[0].Term);
+      Assert.AreEqual(Exp.Atom, exp.Tail[3].Symbol);
+      Assert.AreEqual(" three", exp.Tail[3].Term);
     }
 
     [Test]
@@ -71,23 +71,23 @@ namespace Calyx.Test.Syntax
       TemplateNode node = TemplateNode.Parse("{@one}{@one}{@one}", registry);
 
       Expansion exp = node.Evaluate(new Options());
-      Assert.That(exp.symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.tail[0].symbol, Is.EqualTo(Exp.Memo));
-      Assert.That(exp.tail[0].tail[0].symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.tail[0].tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.tail[1].symbol, Is.EqualTo(Exp.Memo));
-      Assert.That(exp.tail[1].tail[0].symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.tail[1].tail[0].tail[0].symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.tail[1].tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.tail[2].symbol, Is.EqualTo(Exp.Memo));
-      Assert.That(exp.tail[2].tail[0].symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.tail[2].tail[0].tail[0].symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.tail[2].tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Memo));
+      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
+      Assert.That(exp.Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[0].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[1].Symbol, Is.EqualTo(Exp.Memo));
+      Assert.That(exp.Tail[1].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
+      Assert.That(exp.Tail[1].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[1].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[2].Symbol, Is.EqualTo(Exp.Memo));
+      Assert.That(exp.Tail[2].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
+      Assert.That(exp.Tail[2].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[2].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
 
-      string firstTerm = exp.tail[0].tail[0].tail[0].tail[0].term;
-      string secondTerm = exp.tail[1].tail[0].tail[0].tail[0].term;
-      string thirdTerm = exp.tail[2].tail[0].tail[0].tail[0].term;
+      string firstTerm = exp.Tail[0].Tail[0].Tail[0].Tail[0].Term;
+      string secondTerm = exp.Tail[1].Tail[0].Tail[0].Tail[0].Term;
+      string thirdTerm = exp.Tail[2].Tail[0].Tail[0].Tail[0].Term;
       Assert.That(new[] { firstTerm, secondTerm }, Is.All.EqualTo(thirdTerm));
     }
   }

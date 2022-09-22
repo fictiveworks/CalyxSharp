@@ -1,6 +1,3 @@
-using Calyx;
-using NUnit.Framework;
-
 namespace Calyx.Test
 {
   public class PrefixTreeTest

@@ -1,7 +1,4 @@
-using Calyx;
 using Calyx.Production;
-using NUnit.Framework;
-using System;
 
 namespace Calyx.Test.Production
 {
@@ -16,8 +13,8 @@ namespace Calyx.Test.Production
 
       Expansion exp = branch.Evaluate(new Options());
 
-      Assert.AreEqual(Exp.UniformBranch, exp.symbol);
-      Assert.AreEqual(Exp.Template, exp.tail[0].symbol);
+      Assert.That(exp.symbol, Is.EqualTo(Exp.UniformBranch));
+      Assert.That(exp.tail[0].symbol, Is.EqualTo(Exp.Template));
       //Assert.AreEqual("atom", exp.tail.Last().tail.Last().terminal);
     }
 
@@ -32,10 +29,10 @@ namespace Calyx.Test.Production
 
       Expansion exp = branch.Evaluate(new Options(seed: 1234));
 
-      Assert.AreEqual(Exp.UniformBranch, exp.symbol);
-      Assert.AreEqual(Exp.Template, exp.tail[0].symbol);
-      Assert.AreEqual(Exp.Atom, exp.tail[0].tail[0].symbol);
-      Assert.AreEqual("silicon", exp.tail[0].tail[0].term);
+      Assert.That(exp.symbol, Is.EqualTo(Exp.UniformBranch));
+      Assert.That(exp.tail[0].symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.tail[0].tail[0].symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.tail[0].tail[0].term, Is.EqualTo("silicon"));
     }
   }
 }

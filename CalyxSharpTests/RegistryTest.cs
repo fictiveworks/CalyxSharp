@@ -1,8 +1,3 @@
-using Calyx;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-
 namespace Calyx.Test
 {
   public class RegistryTest

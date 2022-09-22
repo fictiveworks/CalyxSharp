@@ -1,8 +1,4 @@
-using Calyx;
 using Calyx.Errors;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace Calyx.Test
 {

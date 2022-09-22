@@ -1,6 +1,4 @@
-using Calyx;
 using Calyx.Syntax;
-using NUnit.Framework;
 
 namespace Calyx.Test.Syntax
 {
@@ -13,8 +11,8 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = atom.Evaluate(new Options());
 
-      Assert.AreEqual(Exp.Atom, exp.symbol);
-      Assert.AreEqual("T E R M", exp.term);
+      Assert.That(exp.symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.term, Is.EqualTo("T E R M"));
     }
   }
 }

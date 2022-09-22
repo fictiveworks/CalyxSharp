@@ -1,7 +1,3 @@
-using Calyx;
-using NUnit.Framework;
-using System;
-
 namespace Calyx.Test
 {
   public class OptionsTest
@@ -10,14 +6,14 @@ namespace Calyx.Test
     public void StrictOffByDefaultTest()
     {
       Options opts = new Options();
-      Assert.False(opts.Strict);
+      Assert.That(opts.Strict, Is.False);
     }
 
     [Test]
     public void StrictOnWithFlagTest()
     {
       Options opts = new Options(strict: true);
-      Assert.True(opts.Strict);
+      Assert.That(opts.Strict, Is.True);
     }
 
     [Test]
@@ -34,7 +30,7 @@ namespace Calyx.Test
       Options opts = new Options(strict: true, seed: 1234567890);
       Assert.That(opts.Rng.Next(100), Is.EqualTo(54));
       Assert.That(opts.Rng.Next(100), Is.EqualTo(42));
-      Assert.True(opts.Strict);
+      Assert.That(opts.Strict, Is.True);
     }
   }
 }

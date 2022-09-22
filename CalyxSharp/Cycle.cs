@@ -7,7 +7,8 @@ namespace Calyx
   {
     Options options;
     int index;
-    List<int> sequence;
+    readonly int count;
+    int[] sequence;
 
     public Cycle(Options options, int count)
     {
@@ -15,27 +16,30 @@ namespace Calyx
         throw new ArgumentException("'count' must be greater than zero");
       }
       this.options = options;
-      index = 0;
-      sequence = Enumerable.Range(0, count).ToList();
-      Shuffle();
+      this.count = count;
+      index = count - 1;  // defer shuffling until the first Poll()
     }
 
     public void Shuffle()
     {
-      int current = sequence.Count;
+      sequence = Enumerable.Range(0, count).ToArray();
+      int current = count;
       while (current > 1) {
         current--;
         int target = options.Rng.Next(current + 1);
-        int swap = sequence[target];
-        sequence[target] = sequence[current];
-        sequence[current] = swap;
+        (sequence[target], sequence[current]) = (sequence[current], sequence[target]);
       }
     }
 
     public int Poll()
     {
-      // TODO: repeat ad infinitum or reshuffle each time final index is polled?
-      return sequence[index++ % sequence.Count];
+      index++;
+      if (index == count)
+      {
+        Shuffle();
+        index = 0;
+      }
+      return sequence[index];
     }
   }
 }

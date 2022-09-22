@@ -55,13 +55,7 @@ namespace Calyx.Syntax
 
     public Expansion Evaluate(Options options)
     {
-      List<Expansion> expansion = new List<Expansion>();
-
-      foreach(IProduction syntaxNode in this.concatNodes) {
-        expansion.Add(syntaxNode.Evaluate(options));
-      }
-
-      return new Expansion(Exp.Template, expansion);
+      return new Expansion(Exp.Template, concatNodes.Select(syntaxNode => syntaxNode.Evaluate(options)).ToList());
     }
   }
 }

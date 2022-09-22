@@ -22,7 +22,7 @@ namespace Calyx.Production
 
     public Expansion Evaluate(Options options)
     {
-      int index = options.Rng.Next(this.choices.Length);
+      int index = options.Rng.Next(choices.Length);
       Expansion tail = choices[index].Evaluate(options);
       return new Expansion(Exp.UniformBranch, tail);
     }

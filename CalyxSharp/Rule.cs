@@ -21,10 +21,10 @@ namespace Calyx
 
     public static Rule Empty()
     {
-      return new Rule("", new Production.EmptyBranch());
+      return new Rule("", new EmptyBranch());
     }
 
-    public int Length { get; private set; }
+    public int Length => production.Length;
 
     public Expansion Evaluate(Options options)
     {

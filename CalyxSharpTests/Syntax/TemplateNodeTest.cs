@@ -1,7 +1,4 @@
-using Calyx;
 using Calyx.Syntax;
-using NUnit.Framework;
-using System;
 
 namespace Calyx.Test.Syntax
 {
@@ -14,9 +11,9 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = node.Evaluate(new Options());
 
-      Assert.AreEqual(Exp.Template, exp.Symbol);
-      Assert.AreEqual(Exp.Atom, exp.Tail[0].Symbol);
-      Assert.AreEqual("one two three", exp.Tail[0].Term);
+      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[0].Term, Is.EqualTo("one two three"));
     }
 
     [Test]
@@ -28,13 +25,13 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = node.Evaluate(new Options());
 
-      Assert.AreEqual(Exp.Template, exp.Symbol);
-      Assert.AreEqual(Exp.Expression, exp.Tail[0].Symbol);
-      Assert.AreEqual(Exp.Template, exp.Tail[0].Tail[0].Symbol);
-      Assert.AreEqual(Exp.Atom, exp.Tail[0].Tail[0].Tail[0].Symbol);
-      Assert.AreEqual("ONE", exp.Tail[0].Tail[0].Tail[0].Term);
-      Assert.AreEqual(Exp.Atom, exp.Tail[1].Symbol);
-      Assert.AreEqual(" two three", exp.Tail[1].Term);
+      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Expression));
+      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("ONE"));
+      Assert.That(exp.Tail[1].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[1].Term, Is.EqualTo(" two three"));
     }
 
     [Test]
@@ -47,19 +44,19 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = node.Evaluate(new Options());
 
-      Assert.AreEqual(Exp.Template, exp.Symbol);
-      Assert.AreEqual(Exp.Expression, exp.Tail[0].Symbol);
-      Assert.AreEqual(Exp.Template, exp.Tail[0].Tail[0].Symbol);
-      Assert.AreEqual(Exp.Atom, exp.Tail[0].Tail[0].Tail[0].Symbol);
-      Assert.AreEqual("ONE", exp.Tail[0].Tail[0].Tail[0].Term);
-      Assert.AreEqual(Exp.Atom, exp.Tail[1].Symbol);
-      Assert.AreEqual(" ", exp.Tail[1].Term);
-      Assert.AreEqual(Exp.Expression, exp.Tail[2].Symbol);
-      Assert.AreEqual(Exp.Template, exp.Tail[2].Tail[0].Symbol);
-      Assert.AreEqual(Exp.Atom, exp.Tail[2].Tail[0].Tail[0].Symbol);
-      Assert.AreEqual("TWO", exp.Tail[2].Tail[0].Tail[0].Term);
-      Assert.AreEqual(Exp.Atom, exp.Tail[3].Symbol);
-      Assert.AreEqual(" three", exp.Tail[3].Term);
+      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Expression));
+      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("ONE"));
+      Assert.That(exp.Tail[1].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[1].Term, Is.EqualTo(" "));
+      Assert.That(exp.Tail[2].Symbol, Is.EqualTo(Exp.Expression));
+      Assert.That(exp.Tail[2].Tail[0].Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[2].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[2].Tail[0].Tail[0].Term, Is.EqualTo("TWO"));
+      Assert.That(exp.Tail[3].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[3].Term, Is.EqualTo(" three"));
     }
 
     [Test]

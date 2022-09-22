@@ -31,11 +31,12 @@ namespace Calyx.Test
       Assert.That(result.Tree.tail[0].term, Is.EqualTo("A T O M"));
     }
 
+    [Test]
     public void FlattensExpressionTreeTest()
     {
       Result result = new Result(this.TripleAtomTemplateTree());
 
-      Assert.AreEqual("O N E | T W O", result.Text);
+      Assert.That(result.Text, Is.EqualTo("O N E | T W O"));
     }
   }
 }

@@ -69,23 +69,23 @@ namespace Calyx.Test.Syntax
       TemplateNode node = TemplateNode.Parse("{@one}{@one}{@one}", registry);
 
       Expansion exp = node.Evaluate(new Options());
-      Assert.That(exp.symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.tail[0].symbol, Is.EqualTo(Exp.Memo));
-      Assert.That(exp.tail[0].tail[0].symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.tail[0].tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.tail[1].symbol, Is.EqualTo(Exp.Memo));
-      Assert.That(exp.tail[1].tail[0].symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.tail[1].tail[0].tail[0].symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.tail[1].tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.tail[2].symbol, Is.EqualTo(Exp.Memo));
-      Assert.That(exp.tail[2].tail[0].symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.tail[2].tail[0].tail[0].symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.tail[2].tail[0].tail[0].tail[0].symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Memo));
+      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
+      Assert.That(exp.Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[0].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[1].Symbol, Is.EqualTo(Exp.Memo));
+      Assert.That(exp.Tail[1].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
+      Assert.That(exp.Tail[1].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[1].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[2].Symbol, Is.EqualTo(Exp.Memo));
+      Assert.That(exp.Tail[2].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
+      Assert.That(exp.Tail[2].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[2].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
 
-      string firstTerm = exp.tail[0].tail[0].tail[0].tail[0].term;
-      string secondTerm = exp.tail[1].tail[0].tail[0].tail[0].term;
-      string thirdTerm = exp.tail[2].tail[0].tail[0].tail[0].term;
+      string firstTerm = exp.Tail[0].Tail[0].Tail[0].Tail[0].Term;
+      string secondTerm = exp.Tail[1].Tail[0].Tail[0].Tail[0].Term;
+      string thirdTerm = exp.Tail[2].Tail[0].Tail[0].Tail[0].Term;
       Assert.That(new[] { firstTerm, secondTerm }, Is.All.EqualTo(thirdTerm));
     }
   }

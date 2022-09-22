@@ -11,7 +11,7 @@ namespace Calyx.Test
     {
       Expansion exp = new Expansion(Exp.Atom, "T E R M");
 
-      Assert.That(exp.term, Is.EqualTo("T E R M"));
+      Assert.That(exp.Term, Is.EqualTo("T E R M"));
     }
 
     [Test]

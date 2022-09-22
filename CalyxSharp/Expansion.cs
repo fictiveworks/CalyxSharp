@@ -18,27 +18,27 @@ namespace Calyx
 
   public class Expansion
   {
-    public readonly Exp symbol;
-    public readonly string term;
-    public readonly List<Expansion> tail;
+    public readonly Exp Symbol;
+    public readonly string Term;
+    public readonly List<Expansion> Tail;
 
     public Expansion(Exp symbol, Expansion tail)
     {
-      this.symbol = symbol;
-      this.tail = new List<Expansion>();
-      this.tail.Add(tail);
+      this.Symbol = symbol;
+      this.Tail = new List<Expansion>();
+      this.Tail.Add(tail);
     }
 
     public Expansion(Exp symbol, string term)
     {
-      this.symbol = symbol;
-      this.term = term;
+      this.Symbol = symbol;
+      this.Term = term;
     }
 
     public Expansion(Exp symbol, List<Expansion> tail)
     {
-      this.symbol = symbol;
-      this.tail = tail;
+      this.Symbol = symbol;
+      this.Tail = tail;
     }
 
     public StringBuilder Flatten()
@@ -50,10 +50,10 @@ namespace Calyx
 
     public void CollectAtoms(StringBuilder concat)
     {
-      if (this.symbol == Exp.Atom) {
-        concat.Append(this.term);
+      if (this.Symbol == Exp.Atom) {
+        concat.Append(this.Term);
       } else {
-        foreach (Expansion exps in this.tail) {
+        foreach (Expansion exps in this.Tail) {
           exps.CollectAtoms(concat);
         }
       }

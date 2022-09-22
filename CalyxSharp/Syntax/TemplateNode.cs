@@ -4,10 +4,10 @@ namespace Calyx.Syntax
 {
   public class TemplateNode : IProduction
   {
-    private static string EXPRESSION = "(\\{[A-Za-z0-9_@$<>\\.]+\\})";
-    private static string START_TOKEN = "{";
-    private static string END_TOKEN = "}";
-    private static string DEREF_TOKEN = "\\.";
+    private static readonly string EXPRESSION = "(\\{[A-Za-z0-9_@$<>\\.]+\\})";
+    private static readonly string START_TOKEN = "{";
+    private static readonly string END_TOKEN = "}";
+    private static readonly string DEREF_TOKEN = "\\.";
 
     private Registry registry;
     private List<IProduction> concatNodes;

@@ -34,5 +34,37 @@ namespace Calyx.Test.Syntax
       Assert.That(thirdTerm, Is.Not.EqualTo(firstTerm));
       Assert.That(thirdTerm, Is.Not.EqualTo(secondTerm));
     }
+
+    [Test]
+    public void UniqueRulesCycleOnceSequenceIsConsumed()
+    {
+      Registry registry = new Registry(new Options(seed: 87654321));
+      registry.DefineRule("num", new[] { "tahi", "rua" });
+      registry.ResetEvaluationContext();
+      TemplateNode node = TemplateNode.Parse("{$num}{$num}{$num}", registry);
+
+      Expansion exp = node.Evaluate(new Options());
+
+      Assert.That(exp.Tail[0].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("tahi"));
+      Assert.That(exp.Tail[1].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("rua"));
+      Assert.That(exp.Tail[2].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("tahi"));
+    }
+
+    [Test]
+    public void UniqueRuleCyclesDifferEachTime()
+    {
+      // by using a different seed to `UniqueRulesCycleOnceSequenceIsConsumed` we
+      // verify the resulting cycle will be different each time
+      Registry registry = new Registry(new Options(seed: 87654323));
+      registry.DefineRule("num", new[] { "tahi", "rua" });
+      registry.ResetEvaluationContext();
+      TemplateNode node = TemplateNode.Parse("{$num}{$num}{$num}", registry);
+
+      Expansion exp = node.Evaluate(new Options());
+
+      Assert.That(exp.Tail[0].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("tahi"));
+      Assert.That(exp.Tail[1].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("rua"));
+      Assert.That(exp.Tail[2].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("rua"));
+    }
   }
 }

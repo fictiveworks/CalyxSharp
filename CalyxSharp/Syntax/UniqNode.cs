@@ -15,7 +15,7 @@ namespace Calyx.Syntax
 
     public Expansion Evaluate(Options options)
     {
-      Expansion eval = this.registry.UniqueExpansion(this.symbol);
+      Expansion eval = registry.UniqueExpansion(symbol);
       return new Expansion(Exp.Uniq, eval);
     }
   }

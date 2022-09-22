@@ -30,9 +30,9 @@ namespace Calyx.Test.Syntax
       Console.WriteLine(secondTerm);
       Console.WriteLine(thirdTerm);
 
-      Assert.AreNotEqual(firstTerm, secondTerm);
-      Assert.AreNotEqual(firstTerm, thirdTerm);
-      Assert.AreNotEqual(secondTerm, thirdTerm);
+      Assert.That(secondTerm, Is.Not.EqualTo(firstTerm));
+      Assert.That(thirdTerm, Is.Not.EqualTo(firstTerm));
+      Assert.That(thirdTerm, Is.Not.EqualTo(secondTerm));
     }
   }
 }

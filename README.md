@@ -4,14 +4,14 @@ Generative text processing for C# and Unity applications.
 
 ## Build
 
-```
-msbuild
+```bash
+dotnet build
 ```
 
 ## Tests
 
-```
-msbuild Calyx.csproj -t:Test
+```bash
+dotnet test
 ```
 
 ## Install

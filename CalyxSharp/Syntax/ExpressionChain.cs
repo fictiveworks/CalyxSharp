@@ -20,7 +20,7 @@ namespace Calyx.Syntax
       // Dynamic dispatch to string modifiers one after another
       //
       // delegate method call with expression input
-      return new Expansion(Exp.Expression, this.components[0]);
+      return new Expansion(Exp.Expression, components[0]);
     }
   }
 }

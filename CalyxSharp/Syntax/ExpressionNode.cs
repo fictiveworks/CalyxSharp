@@ -22,7 +22,7 @@ namespace Calyx.Syntax
 
     public Expansion Evaluate(Options options)
     {
-      Expansion eval = this.registry.Expand(this.reference).Evaluate(options);
+      Expansion eval = this.registry.Expand(reference).Evaluate(options);
       return new Expansion(Exp.Expression, eval.Tail);
     }
   }

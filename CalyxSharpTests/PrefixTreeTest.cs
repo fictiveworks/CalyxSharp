@@ -1,4 +1,3 @@
-using Calyx;
 using NUnit.Framework;
 
 namespace Calyx.Test

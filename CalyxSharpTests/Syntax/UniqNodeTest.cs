@@ -2,6 +2,7 @@ using Calyx;
 using Calyx.Syntax;
 using NUnit.Framework;
 using System;
+using System.Linq;
 
 namespace Calyx.Test.Syntax
 {
@@ -14,25 +15,12 @@ namespace Calyx.Test.Syntax
       registry.DefineRule("medal", new[] { "gold", "silver", "bronze" });
       registry.ResetEvaluationContext();
 
-      UniqNode firstNode = new UniqNode("medal", registry);
-      UniqNode secondNode = new UniqNode("medal", registry);
-      UniqNode thirdNode = new UniqNode("medal", registry);
+      string[] expansions = Enumerable
+        .Range(0, 3)
+        .Select(_ => new UniqNode("medal", registry).Evaluate(new Options()).Tail[0].Tail[0].Tail[0].Term)
+        .ToArray();
 
-      Expansion firstExp = firstNode.Evaluate(new Options());
-      Expansion secondExp = secondNode.Evaluate(new Options());
-      Expansion thirdExp = thirdNode.Evaluate(new Options());
-
-      string firstTerm = firstExp.Tail[0].Tail[0].Tail[0].Term;
-      string secondTerm = secondExp.Tail[0].Tail[0].Tail[0].Term;
-      string thirdTerm = thirdExp.Tail[0].Tail[0].Tail[0].Term;
-
-      Console.WriteLine(firstTerm);
-      Console.WriteLine(secondTerm);
-      Console.WriteLine(thirdTerm);
-
-      Assert.That(secondTerm, Is.Not.EqualTo(firstTerm));
-      Assert.That(thirdTerm, Is.Not.EqualTo(firstTerm));
-      Assert.That(thirdTerm, Is.Not.EqualTo(secondTerm));
+      Assert.That(expansions, Is.Unique);
     }
 
     [Test]

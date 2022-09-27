@@ -19,10 +19,7 @@ namespace Calyx.Test.Production
 
       Expansion exp = branch.Evaluate(new Options(seed: 1234));
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.WeightedBranch));
-      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[0].Tail[0].Term, Is.EqualTo("silicon"));
+      Assert.That(exp.Flatten().ToString(), Is.EqualTo("silicon"));
     }
 
     [Test]
@@ -36,10 +33,7 @@ namespace Calyx.Test.Production
 
       Expansion exp = branch.Evaluate(new Options(seed: 1234));
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.WeightedBranch));
-      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[0].Tail[0].Term, Is.EqualTo("silicon"));
+      Assert.That(exp.Flatten().ToString(), Is.EqualTo("silicon"));
     }
 
     [Test]
@@ -53,10 +47,7 @@ namespace Calyx.Test.Production
 
       Expansion exp = branch.Evaluate(new Options(seed: 1234));
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.WeightedBranch));
-      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[0].Tail[0].Term, Is.EqualTo("silicon"));
+      Assert.That(exp.Flatten().ToString(), Is.EqualTo("silicon"));
     }
 
     [Test]

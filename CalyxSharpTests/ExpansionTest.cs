@@ -15,6 +15,24 @@ namespace Calyx.Test
     }
 
     [Test]
+    public void ConstructNestedExpansionTest()
+    {
+      Expansion exp = new Expansion(Exp.Template, new List<Expansion>() {
+        new Expansion(Exp.Atom, "-TAHI-"),
+        new Expansion(Exp.Atom, "-RUA-"),
+        new Expansion(Exp.Atom, "-TORU-")
+      });
+
+      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[0].Term, Is.EqualTo("-TAHI-"));
+      Assert.That(exp.Tail[1].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[1].Term, Is.EqualTo("-RUA-"));
+      Assert.That(exp.Tail[2].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[2].Term, Is.EqualTo("-TORU-"));
+    }
+
+    [Test]
     public void FlattenExpansionToAtomsTest()
     {
       Expansion exp = new Expansion(Exp.Template, new List<Expansion>() {

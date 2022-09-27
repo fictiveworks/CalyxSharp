@@ -70,6 +70,99 @@ namespace Calyx.Test.Production
       Assert.That(totalBuzz, Is.EqualTo(buzzTimes).Within(1).Percent);
     }
 
+    [Test]
+    public void ResultsApproximateDescendingWeights()
+    {
+      WeightedBranch branch = WeightedBranch.Parse(new Dictionary<string, int> {
+        { "A", 5 },
+        { "B", 3 },
+        { "C", 2 },
+      }, new Registry());
+
+      Expansion[] res = Enumerable.Range(0, 1000).Select(n => branch.Evaluate(new Options(seed: n))).ToArray();
+
+      int countA = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("A")).Count();
+      int countB = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("B")).Count();
+      int countC = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("C")).Count();
+
+      Assert.That(countA, Is.EqualTo(500).Within(1).Percent);
+      Assert.That(countB, Is.EqualTo(300).Within(1).Percent);
+      Assert.That(countC, Is.EqualTo(200).Within(1).Percent);
+    }
+
+    [Test]
+    public void ResultsApproximateAscendingWeights()
+    {
+      WeightedBranch branch = WeightedBranch.Parse(new Dictionary<string, int> {
+        { "C", 2 },
+        { "B", 3 },
+        { "A", 5 },
+      }, new Registry());
+
+      Expansion[] res = Enumerable.Range(0, 1000).Select(n => branch.Evaluate(new Options(seed: n))).ToArray();
+
+      int countA = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("A")).Count();
+      int countB = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("B")).Count();
+      int countC = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("C")).Count();
+
+      Assert.That(countA, Is.EqualTo(500).Within(1).Percent);
+      Assert.That(countB, Is.EqualTo(300).Within(1).Percent);
+      Assert.That(countC, Is.EqualTo(200).Within(1).Percent);
+    }
+
+    [Test]
+    public void ResultsApproximatelyEqualWithUniformWeights()
+    {
+      WeightedBranch branch = WeightedBranch.Parse(new Dictionary<string, int> {
+        { "A", 5 },
+        { "B", 5 },
+      }, new Registry());
+
+      Expansion[] res = Enumerable.Range(0, 1000).Select(n => branch.Evaluate(new Options(seed: n))).ToArray();
+
+      int countA = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("A")).Count();
+      int countB = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("B")).Count();
+
+      Assert.That(countA, Is.EqualTo(countB).Within(1).Percent);
+    }
+
+    [Test]
+    public void SmallestValueDeclaredFirst()
+    {
+      WeightedBranch branch = WeightedBranch.Parse(new Dictionary<string, int> {
+        { "A", 3 },
+        { "B", 7 },
+      }, new Registry());
+
+      Expansion[] res = Enumerable.Range(0, 1000).Select(n => branch.Evaluate(new Options(seed: n))).ToArray();
+
+      int countA = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("A")).Count();
+      int countB = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("B")).Count();
+
+      Assert.That(countA, Is.EqualTo(300).Within(1).Percent);
+      Assert.That(countB, Is.EqualTo(700).Within(1).Percent);
+    }
+
+    [Test]
+    public void MultipleValuesOfTheSameRatio()
+    {
+      WeightedBranch branch = WeightedBranch.Parse(new Dictionary<string, int> {
+        { "A", 3 },
+        { "B", 4 },
+        { "C", 3 },
+      }, new Registry());
+
+      Expansion[] res = Enumerable.Range(0, 1000).Select(n => branch.Evaluate(new Options(seed: n))).ToArray();
+
+      int countA = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("A")).Count();
+      int countB = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("B")).Count();
+      int countC = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("C")).Count();
+
+      Assert.That(countA, Is.EqualTo(300).Within(1).Percent);
+      Assert.That(countB, Is.EqualTo(400).Within(1).Percent);
+      Assert.That(countC, Is.EqualTo(300).Within(1).Percent);
+    }
+
     [TestCase(0)]
     [TestCase(-1)]
     [TestCase(int.MinValue)]

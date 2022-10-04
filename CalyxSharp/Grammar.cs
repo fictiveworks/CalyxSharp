@@ -12,11 +12,32 @@ namespace Calyx
       registry = new Registry();
     }
 
-    public Grammar(bool strict = false, int seed = 0, Random rng = null)
-    {
-      Options opts = new Options(strict: strict, rng: rng, seed: seed);
+    private Grammar(Options opts) {
       registry = new Registry(opts);
     }
+
+    /// <summary>
+    /// Create a new Grammar
+    /// </summary>
+    /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
+    /// <returns></returns>
+    public Grammar(bool strict = false): this(new Options(strict)) {}
+
+    /// <summary>
+    /// Create a new Grammar with the supplied random number generator
+    /// </summary>
+    /// <param name="rng"></param>
+    /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
+    /// <returns></returns>
+    public Grammar(Random rng, bool strict = false): this(new Options(rng, strict)) {}
+
+    /// <summary>
+    /// Create a new Grammar with the supplied random seed
+    /// </summary>
+    /// <param name="seed">An initial seed for the random number generator</param>
+    /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
+    /// <returns></returns>
+    public Grammar(int seed, bool strict = false): this(new Options(seed, strict)) {}
 
     public Grammar(Action<Grammar> registration)
     {

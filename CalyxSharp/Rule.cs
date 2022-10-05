@@ -19,9 +19,9 @@ namespace Calyx
       return new Rule(term, branch);
     }
 
-    public static Rule Empty()
+    public static Rule Empty(string term)
     {
-      return new Rule("", new EmptyBranch());
+      return new Rule(term, new EmptyBranch());
     }
 
     public int Length => production.Length;

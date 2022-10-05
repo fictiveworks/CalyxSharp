@@ -79,8 +79,9 @@ namespace Calyx
 
     public Rule Expand(string symbol)
     {
-       Rule production;
-       if (rules.ContainsKey(symbol)) {
+      Rule production;
+
+      if (rules.ContainsKey(symbol)) {
         production = rules[symbol];
       } else if (context.ContainsKey(symbol)) {
         production = context[symbol];
@@ -88,9 +89,10 @@ namespace Calyx
         if (options.Strict) {
           throw new Errors.UndefinedRule(symbol);
         } else {
-          production = Rule.Empty();
+          production = Rule.Empty(symbol);
         }
       }
+
       return production;
     }
 

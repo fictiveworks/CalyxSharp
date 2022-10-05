@@ -21,7 +21,7 @@ namespace Calyx
     /// </summary>
     /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
     /// <returns></returns>
-    public Grammar(bool strict = false): this(new Options(strict)) {}
+    public Grammar(bool strict = Options.DefaultStrict): this(new Options(strict)) {}
 
     /// <summary>
     /// Create a new Grammar with the supplied random number generator
@@ -29,7 +29,7 @@ namespace Calyx
     /// <param name="rng">The random number generator to use</param>
     /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
     /// <returns></returns>
-    public Grammar(Random rng, bool strict = false): this(new Options(rng, strict)) {}
+    public Grammar(Random rng, bool strict = Options.DefaultStrict): this(new Options(rng, strict)) {}
 
     /// <summary>
     /// Create a new Grammar with the supplied random seed
@@ -37,7 +37,7 @@ namespace Calyx
     /// <param name="seed">An initial seed for the random number generator</param>
     /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
     /// <returns></returns>
-    public Grammar(int seed, bool strict = false): this(new Options(seed, strict)) {}
+    public Grammar(int seed, bool strict = Options.DefaultStrict): this(new Options(seed, strict)) {}
 
     /// <summary>
     /// Create a new Grammar
@@ -45,7 +45,7 @@ namespace Calyx
     /// <param name="registration">A delegate method which is called after the Grammar is created</param>
     /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
     /// <returns></returns>
-    public Grammar(Action<Grammar> registration, bool strict = false) : this(strict)
+    public Grammar(Action<Grammar> registration, bool strict = Options.DefaultStrict) : this(strict)
     {
       registration(this);
     }
@@ -57,7 +57,7 @@ namespace Calyx
     /// <param name="rng">The random number generator to use</param>
     /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
     /// <returns></returns>
-    public Grammar(Action<Grammar> registration, Random rng, bool strict = false) : this(rng, strict)
+    public Grammar(Action<Grammar> registration, Random rng, bool strict = Options.DefaultStrict) : this(rng, strict)
     {
       registration(this);
     }
@@ -69,7 +69,7 @@ namespace Calyx
     /// <param name="seed">An initial seed for the random number generator</param>
     /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
     /// <returns></returns>
-    public Grammar(Action<Grammar> registration, int seed, bool strict = false) : this(seed, strict)
+    public Grammar(Action<Grammar> registration, int seed, bool strict = Options.DefaultStrict) : this(seed, strict)
     {
       registration(this);
     }

@@ -152,8 +152,8 @@ Rough plan for stabilising the API and features for a `1.0` release.
 | `0.1`   | ~~block constructors and basic grammar features~~                  |
 | `0.2`   | ~~runtime generator context in template substitution~~             |
 | `0.3`   | ~~memo nodes and expression syntax~~                               |
-| `0.4`   | uniq nodes and expression syntax                                   |
-| `0.5`   | weighted branch productions and definition parser                   |
+| `0.4`   | ~~uniq nodes and expression syntax~~                               |
+| `0.5`   | ~~weighted branch productions and definition parser~~              |
 | `0.6`   | modifying filter chains and expression syntax                       |
 | `0.7`   | affix tree productions, definition parser and expression syntax      |
 | `0.8`   | error handling and stack trace diagnostics                         |

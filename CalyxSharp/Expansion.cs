@@ -8,6 +8,7 @@ namespace Calyx
     Result,
     UniformBranch,
     WeightedBranch,
+    EmptyBranch,
     AffixTable,
     Template,
     Expression,

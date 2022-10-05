@@ -1,3 +1,4 @@
+using System.Linq;
 namespace Calyx.Syntax
 {
   public class ExpressionChain : IProduction
@@ -9,18 +10,19 @@ namespace Calyx.Syntax
     {
       this.registry = registry;
       this.components = components;
-      // foreach (string label in components) {
-      //   FilterComponent component = this.registry.GetFilterComponent(label);
-      //   this.components.Add(component);
-      // }
     }
 
     public Expansion Evaluate(Options options)
     {
+      Expansion eval = registry.Expand(components[0]).Evaluate(options);
+      string initial =  new Expansion(Exp.Expression, eval.Tail).Flatten().ToString();
+
       // Dynamic dispatch to string modifiers one after another
-      //
-      // delegate method call with expression input
-      return new Expansion(Exp.Expression, components[0]);
+      string modified = components
+        .Skip(1)
+        .Aggregate(initial, (accumulator, filterName) => registry.GetFilterComponent(filterName).Modify(accumulator));
+      
+      return new Expansion(Exp.Atom, modified);
     }
   }
 }

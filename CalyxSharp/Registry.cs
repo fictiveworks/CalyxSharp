@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Calyx.Modifiers;
 
 namespace Calyx
 {
@@ -11,11 +11,13 @@ namespace Calyx
     private Dictionary<string, Rule> context;
     private Dictionary<string, Expansion> memos;
     private Dictionary<string, Cycle> cycles;
+    private Dictionary<string, IStringModifier> modifiers; 
 
     public Registry(Options options = null)
     {
       this.options = (options != null) ? options : new Options();
       rules = new Dictionary<string, Rule>();
+      modifiers = StringModifier.GetBuiltins();
     }
 
     public void DefineRule(string name, string[] productions)
@@ -94,10 +96,15 @@ namespace Calyx
       return production;
     }
 
-    // public FilterComponent GetFilterComponent(label)
-    // {
-    //   delegate filter component binding somewhere here
-    // }
+    public IStringModifier GetFilterComponent(string label)
+    {
+      if (!modifiers.ContainsKey(label))
+      {
+        throw new Calyx.Errors.UndefinedFilter(label);
+      }
+
+      return modifiers[label];
+    }
 
     public void ResetEvaluationContext()
     {

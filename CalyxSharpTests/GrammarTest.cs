@@ -131,5 +131,18 @@ namespace Calyx.Test
 
       Assert.That(result.Text, Is.EqualTo("+|+") | Is.EqualTo("-|-") | Is.EqualTo("^|^"));
     }
+    
+    [Test]
+    public void FilterExpressionTest() 
+    {
+      Grammar grammar = new Grammar(def => {
+        def.Start(new[] { "{greekLetter.uppercase}" })
+           .Rule("greekLetter", new[] { "alpha", "beta", "gamma" });
+      });
+
+      Result result = grammar.Generate();
+
+      Assert.That(result.Text, Is.EqualTo("ALPHA") | Is.EqualTo("BETA") | Is.EqualTo("GAMMA"));
+    }
   }
 }

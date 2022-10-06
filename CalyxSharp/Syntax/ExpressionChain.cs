@@ -22,7 +22,7 @@ namespace Calyx.Syntax
         .Skip(1)
         .Aggregate(initial, (accumulator, filterName) => registry.GetFilterComponent(filterName).Modify(accumulator));
       
-      return new Expansion(Exp.Atom, modified);
+      return new Expansion(Exp.Expression, new Expansion(Exp.Atom, modified));
     }
   }
 }

@@ -4,24 +4,34 @@ namespace Calyx
 {
   public class Options
   {
-    public const Random DefaultRng = null;
-    public const int DefaultSeed = 0;
     public const bool DefaultStrict = false;
 
-
-    public readonly int Seed;
     public readonly Random Rng;
     public readonly bool Strict;
 
-    public Options(Random rng = DefaultRng, int seed = DefaultSeed, bool strict = DefaultStrict)
-    {
-      if (seed > 0) {
-        Rng = new Random(seed);
-        Seed = seed;
-      } else {
-        Rng = new Random();
-      }
+    /// <summary>
+    /// Create a new Options object with the default random number generator
+    /// </summary>
+    /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
+    /// <returns></returns>
+    public Options(bool strict = DefaultStrict) : this(new Random(), strict) {}
 
+    /// <summary>
+    /// Create a new options object with the specified random seed
+    /// </summary>
+    /// <param name="seed">The random seed to use</param>
+    /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
+    /// <returns></returns>
+    public Options(int seed, bool strict = DefaultStrict) : this(new Random(seed), strict) {}
+
+    /// <summary>
+    /// Create a new options object with the specified 
+    /// </summary>
+    /// <param name="rng"></param>
+    /// <param name="strict"></param>
+    public Options(Random rng, bool strict = DefaultStrict)
+    {
+      Rng = rng;
       Strict = strict;
     }
   }

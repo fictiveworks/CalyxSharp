@@ -12,22 +12,65 @@ namespace Calyx
       registry = new Registry();
     }
 
-    public Grammar(bool strict = false, int seed = 0, Random rng = null)
-    {
-      Options opts = new Options(strict: strict, rng: rng, seed: seed);
+    private Grammar(Options opts) {
       registry = new Registry(opts);
     }
 
-    public Grammar(Action<Grammar> registration)
+    /// <summary>
+    /// Create a new Grammar
+    /// </summary>
+    /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
+    /// <returns></returns>
+    public Grammar(bool strict = Options.DefaultStrict): this(new Options(strict)) {}
+
+    /// <summary>
+    /// Create a new Grammar with the supplied random number generator
+    /// </summary>
+    /// <param name="rng">The random number generator to use</param>
+    /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
+    /// <returns></returns>
+    public Grammar(Random rng, bool strict = Options.DefaultStrict): this(new Options(rng, strict)) {}
+
+    /// <summary>
+    /// Create a new Grammar with the supplied random seed
+    /// </summary>
+    /// <param name="seed">An initial seed for the random number generator</param>
+    /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
+    /// <returns></returns>
+    public Grammar(int seed, bool strict = Options.DefaultStrict): this(new Options(seed, strict)) {}
+
+    /// <summary>
+    /// Create a new Grammar
+    /// </summary>
+    /// <param name="registration">A delegate method which is called after the Grammar is created</param>
+    /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
+    /// <returns></returns>
+    public Grammar(Action<Grammar> registration, bool strict = Options.DefaultStrict) : this(strict)
     {
-      registry = new Registry();
       registration(this);
     }
 
-    public Grammar(Action<Grammar> registration, bool strict = false, Random rng = null)
+    /// <summary>
+    /// Create a new Grammar
+    /// </summary>
+    /// <param name="registration">A delegate method which is called after the Grammar is created</param>
+    /// <param name="rng">The random number generator to use</param>
+    /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
+    /// <returns></returns>
+    public Grammar(Action<Grammar> registration, Random rng, bool strict = Options.DefaultStrict) : this(rng, strict)
     {
-      Options opts = new Options(strict: strict, rng: rng);
-      registry = new Registry(opts);
+      registration(this);
+    }
+
+    /// <summary>
+    /// Create a new Grammar
+    /// </summary>
+    /// <param name="registration">A delegate method which is called after the Grammar is created</param>
+    /// <param name="seed">An initial seed for the random number generator</param>
+    /// <param name="strict">Determines if the parser should throw an error when encountering an undefined key</param>
+    /// <returns></returns>
+    public Grammar(Action<Grammar> registration, int seed, bool strict = Options.DefaultStrict) : this(seed, strict)
+    {
       registration(this);
     }
 

@@ -1,5 +1,6 @@
 using Calyx.Syntax;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace Calyx.Test
@@ -53,6 +54,25 @@ namespace Calyx.Test
 
       Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("Texas is in USA. London is in England."));
+    }
+
+    [Test]
+    public void CanDefineACustomFilter() {
+      Registry registry = new Registry(new Options(seed: 223344));
+      
+      registry.DefineFilter("backwards", new Modifiers.StringModifier((input) => {
+        char[] chars = input.ToCharArray();
+        Array.Reverse(chars);
+        return new string(chars);
+      }));
+
+      registry.DefineRule("start", new[] { "{anadrome.backwards}" });
+      registry.DefineRule("anadrome", new[] { "desserts" });
+
+      Expansion exp = registry.Evaluate("start");
+
+      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp.Flatten().ToString(), Is.EqualTo("stressed"));
     }
   }
 }

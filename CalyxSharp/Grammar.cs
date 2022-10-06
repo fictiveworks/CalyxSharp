@@ -55,6 +55,12 @@ namespace Calyx
       return this;
     }
 
+    public Grammar Filter(string name, Modifiers.IStringModifier filter)
+    {
+      registry.DefineFilter(name, filter);
+      return this;
+    }
+
     public Result Generate()
     {
       return new Result(registry.Evaluate("start"));

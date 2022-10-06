@@ -106,6 +106,10 @@ namespace Calyx
       return modifiers[label];
     }
 
+    public void DefineFilter(string filterName, IStringModifier modifier) {
+      modifiers[filterName] = modifier;
+    }
+
     public void ResetEvaluationContext()
     {
       context = new Dictionary<string, Rule>();

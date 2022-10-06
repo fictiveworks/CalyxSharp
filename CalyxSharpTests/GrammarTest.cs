@@ -1,6 +1,7 @@
 using Calyx.Errors;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Calyx.Test
 {
@@ -143,6 +144,20 @@ namespace Calyx.Test
       Result result = grammar.Generate();
 
       Assert.That(result.Text, Is.EqualTo("ALPHA") | Is.EqualTo("BETA") | Is.EqualTo("GAMMA"));
+    }
+
+    [Test]
+    public void CustomFilterExpressionTest() 
+    {
+      Grammar grammar = new Grammar(def => {
+        def.Start(new[] { "{word.vowelCount}" })
+           .Rule("word", new[] { "autobiographies" })
+           .Filter("vowelCount", new Modifiers.StringModifier((input) => input.Count(c => "aeiou".Contains(char.ToLower(c))).ToString()));
+      });
+
+      Result result = grammar.Generate();
+
+      Assert.That(result.Text, Is.EqualTo("8"));
     }
   }
 }

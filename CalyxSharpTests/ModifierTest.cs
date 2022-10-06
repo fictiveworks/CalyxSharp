@@ -9,7 +9,7 @@ namespace Calyx.Test
   {
     [Test]
     public void UpperCase() {
-      Registry registry = new Registry(new Options(seed: 223344));
+      Registry registry = new Registry();
       registry.DefineRule("start", new[] { "{city.uppercase}" });
       registry.DefineRule("city", new[] { "Whangārei" });
 
@@ -21,7 +21,7 @@ namespace Calyx.Test
 
     [Test]
     public void LowerCase() {
-      Registry registry = new Registry(new Options(seed: 223344));
+      Registry registry = new Registry();
       registry.DefineRule("start", new[] { "{city.lowercase}" });
       registry.DefineRule("city", new[] { "Whangārei" });
 
@@ -33,7 +33,7 @@ namespace Calyx.Test
 
     [Test]
     public void TitleCase() {
-      Registry registry = new Registry(new Options(seed: 223344));
+      Registry registry = new Registry();
       registry.DefineRule("start", new[] { "{sentence.titlecase}" });
       registry.DefineRule("sentence", new[] { "New York is in USA. London is in England." });
 
@@ -46,7 +46,7 @@ namespace Calyx.Test
 
     [Test]
     public void SentenceCase() {
-      Registry registry = new Registry(new Options(seed: 223344));
+      Registry registry = new Registry();
       registry.DefineRule("start", new[] { "{sentence.sentencecase}" });
       registry.DefineRule("sentence", new[] { "Texas is in USA. london is in England." });
 
@@ -58,7 +58,7 @@ namespace Calyx.Test
 
     [Test]
     public void CanDefineACustomFilter() {
-      Registry registry = new Registry(new Options(seed: 223344));
+      Registry registry = new Registry();
       
       registry.DefineFilter("backwards", new Modifiers.StringModifier((input) => {
         char[] chars = input.ToCharArray();

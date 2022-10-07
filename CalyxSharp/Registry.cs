@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Calyx.Modifiers;
+using System.Linq;
+using System.Reflection;
 
 namespace Calyx
 {
@@ -11,13 +12,13 @@ namespace Calyx
     private Dictionary<string, Rule> context;
     private Dictionary<string, Expansion> memos;
     private Dictionary<string, Cycle> cycles;
-    private Dictionary<string, IStringModifier> modifiers; 
+    private List<Type> filterClasses;
 
     public Registry(Options options = null)
     {
       this.options = (options != null) ? options : new Options();
       rules = new Dictionary<string, Rule>();
-      modifiers = StringModifier.GetBuiltins();
+      filterClasses = new List<Type> { typeof (Filters) };
     }
 
     public void DefineRule(string name, string[] productions)
@@ -96,18 +97,24 @@ namespace Calyx
       return production;
     }
 
-    public IStringModifier GetFilterComponent(string label)
+    public Func<string, string> GetFilterComponent(string label)
     {
-      if (!modifiers.ContainsKey(label))
+      MethodInfo meth = filterClasses.SelectMany((filterClass) => filterClass.GetMethods())
+        .Where((m) => m.GetCustomAttributes(typeof(FilterNameAttribute), false).Length > 0)
+        .Where((m) => m.GetCustomAttribute<FilterNameAttribute>().Name.Equals(label))
+        .FirstOrDefault();
+      
+      if (meth == null) 
       {
         throw new Calyx.Errors.UndefinedFilter(label);
       }
 
-      return modifiers[label];
+      // curry the options object into a method invocation to return a pure modifier function
+      return (input) => (string)meth.Invoke(null, new object[]{ input, options});
     }
 
-    public void DefineFilter(string filterName, IStringModifier modifier) {
-      modifiers[filterName] = modifier;
+    public void AddFilterClass(Type filterClass) {
+      filterClasses.Add(filterClass);
     }
 
     public void ResetEvaluationContext()

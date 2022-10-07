@@ -55,9 +55,9 @@ namespace Calyx
       return this;
     }
 
-    public Grammar Filter(string name, Modifiers.IStringModifier filter)
+    public Grammar Filters(Type filterClass)
     {
-      registry.DefineFilter(name, filter);
+      registry.AddFilterClass(filterClass);
       return this;
     }
 

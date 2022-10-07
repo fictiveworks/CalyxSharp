@@ -20,7 +20,7 @@ namespace Calyx.Syntax
       // Dynamic dispatch to string modifiers one after another
       string modified = components
         .Skip(1)
-        .Aggregate(initial, (accumulator, filterName) => registry.GetFilterComponent(filterName).Modify(accumulator));
+        .Aggregate(initial, (accumulator, filterName) => registry.GetFilterComponent(filterName).Invoke(accumulator));
       
       return new Expansion(Exp.Expression, new Expansion(Exp.Atom, modified));
     }

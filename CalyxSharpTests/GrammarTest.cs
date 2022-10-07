@@ -1,5 +1,6 @@
 using Calyx.Errors;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -152,12 +153,17 @@ namespace Calyx.Test
       Grammar grammar = new Grammar(def => {
         def.Start(new[] { "{word.vowelCount}" })
            .Rule("word", new[] { "autobiographies" })
-           .Filter("vowelCount", new Modifiers.StringModifier((input) => input.Count(c => "aeiou".Contains(char.ToLower(c))).ToString()));
+           .Filters(typeof(TestFilter));
       });
 
       Result result = grammar.Generate();
 
       Assert.That(result.Text, Is.EqualTo("8"));
+    }
+
+    internal static class TestFilter {
+      [FilterName("vowelcount")]
+      public static string VowelCount(string input, Options options) => input.Count(c => "aeiou".Contains(char.ToLower(c))).ToString(); 
     }
   }
 }

@@ -2,6 +2,7 @@ using Calyx.Syntax;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Calyx.Test
 {
@@ -60,11 +61,7 @@ namespace Calyx.Test
     public void CanDefineACustomFilter() {
       Registry registry = new Registry();
       
-      registry.DefineFilter("backwards", new Modifiers.StringModifier((input) => {
-        char[] chars = input.ToCharArray();
-        Array.Reverse(chars);
-        return new string(chars);
-      }));
+      registry.AddFilterClass(typeof(TestFilter));
 
       registry.DefineRule("start", new[] { "{anadrome.backwards}" });
       registry.DefineRule("anadrome", new[] { "desserts" });
@@ -73,6 +70,15 @@ namespace Calyx.Test
 
       Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("stressed"));
+    }
+
+    internal static class TestFilter {
+      [FilterName("backwards")]
+      public static string Backwards(string input, Options options) {
+        char[] chars = input.ToCharArray();
+        Array.Reverse(chars);
+        return new string(chars);
+      }
     }
   }
 }

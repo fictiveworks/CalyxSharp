@@ -1,6 +1,8 @@
 using Calyx.Errors;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Calyx.Test
 {
@@ -130,6 +132,38 @@ namespace Calyx.Test
       Result result = grammar.Generate();
 
       Assert.That(result.Text, Is.EqualTo("+|+") | Is.EqualTo("-|-") | Is.EqualTo("^|^"));
+    }
+    
+    [Test]
+    public void FilterExpressionTest() 
+    {
+      Grammar grammar = new Grammar(def => {
+        def.Start(new[] { "{greekLetter.uppercase}" })
+           .Rule("greekLetter", new[] { "alpha", "beta", "gamma" });
+      });
+
+      Result result = grammar.Generate();
+
+      Assert.That(result.Text, Is.EqualTo("ALPHA") | Is.EqualTo("BETA") | Is.EqualTo("GAMMA"));
+    }
+
+    [Test]
+    public void CustomFilterExpressionTest() 
+    {
+      Grammar grammar = new Grammar(def => {
+        def.Start(new[] { "{word.vowelcount}" })
+           .Rule("word", new[] { "autobiographies" })
+           .Filters(typeof(TestFilter));
+      });
+
+      Result result = grammar.Generate();
+
+      Assert.That(result.Text, Is.EqualTo("8"));
+    }
+
+    internal static class TestFilter {
+      [FilterName("vowelcount")]
+      public static string VowelCount(string input, Options options) => input.Count(c => "aeiou".Contains(char.ToLower(c))).ToString(); 
     }
   }
 }

@@ -151,7 +151,7 @@ namespace Calyx.Test
     public void CustomFilterExpressionTest() 
     {
       Grammar grammar = new Grammar(def => {
-        def.Start(new[] { "{word.vowelCount}" })
+        def.Start(new[] { "{word.vowelcount}" })
            .Rule("word", new[] { "autobiographies" })
            .Filters(typeof(TestFilter));
       });

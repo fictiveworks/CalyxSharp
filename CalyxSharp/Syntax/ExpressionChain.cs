@@ -1,4 +1,8 @@
+using System;
 using System.Linq;
+using System.Reflection;
+using Calyx.Errors;
+
 namespace Calyx.Syntax
 {
   public class ExpressionChain : IProduction
@@ -20,7 +24,19 @@ namespace Calyx.Syntax
       // Dynamic dispatch to string modifiers one after another
       string modified = components
         .Skip(1)
-        .Aggregate(initial, (accumulator, filterName) => registry.GetFilterComponent(filterName).Invoke(accumulator));
+        .Aggregate(initial, (accumulator, filterName) => {
+          try {
+            return registry.GetFilterComponent(filterName).Invoke(accumulator);
+          }
+          catch (ArgumentException)
+          {
+            throw new IncorrectFilterSignature(filterName);
+          }
+          catch (TargetParameterCountException)
+          {
+            throw new IncorrectFilterSignature(filterName);
+          }
+        }); 
       
       return new Expansion(Exp.Expression, new Expansion(Exp.Atom, modified));
     }

@@ -1,3 +1,4 @@
+using Calyx.Errors;
 using Calyx.Syntax;
 using NUnit.Framework;
 using System;
@@ -72,6 +73,30 @@ namespace Calyx.Test
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("stressed"));
     }
 
+    [Test]
+    public void IncorrectFilterSignatureThrowsException() {
+      Registry registry = new Registry();
+      
+      registry.AddFilterClass(typeof(TestFilter));
+
+      registry.DefineRule("start", new[] { "{ball.incorrectparameters}" });
+      registry.DefineRule("ball", new[] { "⚽️", "🏀", "⚾️" });
+
+      Assert.Throws<IncorrectFilterSignature>(() => registry.Evaluate("start"));
+    }
+
+    [Test]
+    public void IncorrectFilterParameterCountThrowsException() {
+      Registry registry = new Registry();
+      
+      registry.AddFilterClass(typeof(TestFilter));
+
+      registry.DefineRule("start", new[] { "{ball.incorrectparametercount}" });
+      registry.DefineRule("ball", new[] { "⚽️", "🏀", "⚾️" });
+
+      Assert.Throws<IncorrectFilterSignature>(() => registry.Evaluate("start"));
+    }
+
     internal static class TestFilter {
       [FilterName("backwards")]
       public static string Backwards(string input, Options options) {
@@ -79,6 +104,12 @@ namespace Calyx.Test
         Array.Reverse(chars);
         return new string(chars);
       }
+
+      [FilterName("incorrectparameters")]
+      public static string IncorrectParameterTypes(string input, string incorrectParameterType) => "";
+
+      [FilterName("incorrectparametercount")]
+      public static string IncorrectParameterCount(string input) => "";
     }
   }
 }

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>0.3.0.0</AssemblyVersion>
+    <Version>0.3.0</Version>
     <Copyright>Copyright © 2021 Fictiveworks</Copyright>
     <Title>Calyx</Title>
     <PackageId>Calyx</PackageId>

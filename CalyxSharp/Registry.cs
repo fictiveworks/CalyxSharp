@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Calyx
 {
@@ -11,11 +12,13 @@ namespace Calyx
     private Dictionary<string, Rule> context;
     private Dictionary<string, Expansion> memos;
     private Dictionary<string, Cycle> cycles;
+    private List<Type> filterClasses;
 
     public Registry(Options options = null)
     {
       this.options = (options != null) ? options : new Options();
       rules = new Dictionary<string, Rule>();
+      filterClasses = new List<Type> { typeof (Filters) };
     }
 
     public void DefineRule(string name, string[] productions)
@@ -96,10 +99,25 @@ namespace Calyx
       return production;
     }
 
-    // public FilterComponent GetFilterComponent(label)
-    // {
-    //   delegate filter component binding somewhere here
-    // }
+    public Func<string, string> GetFilterComponent(string label)
+    {
+      MethodInfo matchedFilter = filterClasses.SelectMany((filterClass) => filterClass.GetMethods())
+        .Where((m) => m.GetCustomAttributes(typeof(FilterNameAttribute), false).Length > 0)
+        .Where((m) => m.GetCustomAttribute<FilterNameAttribute>().Name.Equals(label))
+        .FirstOrDefault();
+      
+      if (matchedFilter == null) 
+      {
+        throw new Calyx.Errors.UndefinedFilter(label);
+      }
+
+      // curry the options object into a method invocation to return a pure modifier function
+      return (input) => (string)matchedFilter.Invoke(null, new object[]{ input, options});
+    }
+
+    public void AddFilterClass(Type filterClass) {
+      filterClasses.Add(filterClass);
+    }
 
     public void ResetEvaluationContext()
     {

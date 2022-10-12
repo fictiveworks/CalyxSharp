@@ -98,6 +98,12 @@ namespace Calyx
       return this;
     }
 
+    public Grammar Filters(Type filterClass)
+    {
+      registry.AddFilterClass(filterClass);
+      return this;
+    }
+
     public Result Generate()
     {
       return new Result(registry.Evaluate("start"));

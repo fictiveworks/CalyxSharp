@@ -2,6 +2,7 @@ using Calyx;
 using Calyx.Syntax;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Calyx.Test.Syntax
@@ -17,7 +18,7 @@ namespace Calyx.Test.Syntax
 
       string[] expansions = Enumerable
         .Range(0, 3)
-        .Select(_ => new UniqNode("medal", registry).Evaluate(new Options()).Tail[0].Tail[0].Tail[0].Term)
+        .Select(_ => new UniqNode("medal", registry).Evaluate(new Options()).Flatten().ToString())
         .ToArray();
 
       Assert.That(expansions, Is.Unique);
@@ -33,9 +34,13 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = node.Evaluate(new Options());
 
-      Assert.That(exp.Tail[0].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("tahi"));
-      Assert.That(exp.Tail[1].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("rua"));
-      Assert.That(exp.Tail[2].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("tahi"));
+      Assert.That(exp, Is.EqualTo(
+        new Expansions.Template(
+          new List<Expansion>{
+            new Expansions.Uniq(new Expansions.UniformBranch(new Expansions.Template("tahi"))),
+            new Expansions.Uniq(new Expansions.UniformBranch(new Expansions.Template("rua"))),
+            new Expansions.Uniq(new Expansions.UniformBranch(new Expansions.Template("tahi"))),
+          })));
     }
 
     [Test]
@@ -50,9 +55,11 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = node.Evaluate(new Options());
 
-      Assert.That(exp.Tail[0].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("tahi"));
-      Assert.That(exp.Tail[1].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("rua"));
-      Assert.That(exp.Tail[2].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("rua"));
+      Assert.That(exp, Is.EqualTo(new Expansions.Template(new List<Expansion>{
+            new Expansions.Uniq(new Expansions.UniformBranch(new Expansions.Template("tahi"))),
+            new Expansions.Uniq(new Expansions.UniformBranch(new Expansions.Template("rua"))),
+            new Expansions.Uniq(new Expansions.UniformBranch(new Expansions.Template("rua"))),
+      })));
     }
   }
 }

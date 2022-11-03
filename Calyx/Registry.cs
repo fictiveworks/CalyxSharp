@@ -49,12 +49,7 @@ namespace Calyx
     {
       ResetEvaluationContext();
 
-      Expansion rootExpression = new Expansion(
-        Exp.Result,
-        Expand(startSymbol).Evaluate(options)
-      );
-
-      return rootExpression;
+      return new Expansions.Result( Expand(startSymbol).Evaluate(options) );
     }
 
     public Expansion Evaluate(string startSymbol, Dictionary<string, string[]> context)
@@ -69,12 +64,7 @@ namespace Calyx
         this.context[rule.Key] = Rule.Build(rule.Key, rule.Value, this);
       }
 
-      Expansion rootExpression = new Expansion(
-        Exp.Result,
-        Expand(startSymbol).Evaluate(options)
-      );
-
-      return rootExpression;
+      return new Expansions.Result(Expand(startSymbol).Evaluate(options));
     }
 
     public Expansion MemoizeExpansion(string symbol)

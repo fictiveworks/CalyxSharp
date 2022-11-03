@@ -63,8 +63,8 @@ namespace Calyx.Test.Production
 
       Expansion[] res = Enumerable.Range(0, fizzTimes + buzzTimes).Select(n => branch.Evaluate(new Options(seed: n))).ToArray();
 
-      int totalFizz = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("fizz")).Count();
-      int totalBuzz = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("buzz")).Count();
+      int totalFizz = res.Where(exp => exp.Flatten().ToString().Equals("fizz")).Count();
+      int totalBuzz = res.Where(exp => exp.Flatten().ToString().Equals("buzz")).Count();
 
       Assert.That(totalFizz, Is.EqualTo(fizzTimes).Within(1).Percent);
       Assert.That(totalBuzz, Is.EqualTo(buzzTimes).Within(1).Percent);
@@ -81,9 +81,9 @@ namespace Calyx.Test.Production
 
       Expansion[] res = Enumerable.Range(0, 1000).Select(n => branch.Evaluate(new Options(seed: n))).ToArray();
 
-      int countA = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("A")).Count();
-      int countB = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("B")).Count();
-      int countC = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("C")).Count();
+      int countA = res.Where(exp => exp.Flatten().ToString().Equals("A")).Count();
+      int countB = res.Where(exp => exp.Flatten().ToString().Equals("B")).Count();
+      int countC = res.Where(exp => exp.Flatten().ToString().Equals("C")).Count();
 
       Assert.That(countA, Is.EqualTo(500).Within(1).Percent);
       Assert.That(countB, Is.EqualTo(300).Within(1).Percent);
@@ -101,9 +101,9 @@ namespace Calyx.Test.Production
 
       Expansion[] res = Enumerable.Range(0, 1000).Select(n => branch.Evaluate(new Options(seed: n))).ToArray();
 
-      int countA = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("A")).Count();
-      int countB = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("B")).Count();
-      int countC = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("C")).Count();
+      int countA = res.Where(exp => exp.Flatten().ToString().Equals("A")).Count();
+      int countB = res.Where(exp => exp.Flatten().ToString().Equals("B")).Count();
+      int countC = res.Where(exp => exp.Flatten().ToString().Equals("C")).Count();
 
       Assert.That(countA, Is.EqualTo(500).Within(1).Percent);
       Assert.That(countB, Is.EqualTo(300).Within(1).Percent);
@@ -120,8 +120,8 @@ namespace Calyx.Test.Production
 
       Expansion[] res = Enumerable.Range(0, 1000).Select(n => branch.Evaluate(new Options(seed: n))).ToArray();
 
-      int countA = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("A")).Count();
-      int countB = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("B")).Count();
+      int countA = res.Where(exp => exp.Flatten().ToString().Equals("A")).Count();
+      int countB = res.Where(exp => exp.Flatten().ToString().Equals("B")).Count();
 
       Assert.That(countA, Is.EqualTo(countB).Within(1).Percent);
     }
@@ -136,8 +136,8 @@ namespace Calyx.Test.Production
 
       Expansion[] res = Enumerable.Range(0, 1000).Select(n => branch.Evaluate(new Options(seed: n))).ToArray();
 
-      int countA = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("A")).Count();
-      int countB = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("B")).Count();
+      int countA = res.Where(exp => exp.Flatten().ToString().Equals("A")).Count();
+      int countB = res.Where(exp => exp.Flatten().ToString().Equals("B")).Count();
 
       Assert.That(countA, Is.EqualTo(300).Within(1).Percent);
       Assert.That(countB, Is.EqualTo(700).Within(1).Percent);
@@ -154,9 +154,9 @@ namespace Calyx.Test.Production
 
       Expansion[] res = Enumerable.Range(0, 1000).Select(n => branch.Evaluate(new Options(seed: n))).ToArray();
 
-      int countA = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("A")).Count();
-      int countB = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("B")).Count();
-      int countC = res.Where(exp => exp.Tail[0].Tail[0].Term.Equals("C")).Count();
+      int countA = res.Where(exp => exp.Flatten().ToString().Equals("A")).Count();
+      int countB = res.Where(exp => exp.Flatten().ToString().Equals("B")).Count();
+      int countC = res.Where(exp => exp.Flatten().ToString().Equals("C")).Count();
 
       Assert.That(countA, Is.EqualTo(300).Within(1).Percent);
       Assert.That(countB, Is.EqualTo(400).Within(1).Percent);

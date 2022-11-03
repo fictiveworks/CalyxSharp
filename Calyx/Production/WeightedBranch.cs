@@ -24,12 +24,12 @@ namespace Calyx.Production
     private Registry registry;
     private double sumOfWeights;
 
-    public Expansion Evaluate(Options options)
+    public Expansions.WeightedBranch Evaluate(Options options)
     {
       double max = sumOfWeights;
       double waterMark = options.Rng.NextDouble() * sumOfWeights;
       WeightedProduction production = productions.FirstOrDefault(wp => waterMark >= (max -= wp.Weight));
-      return new Expansion(Exp.WeightedBranch, production.Production.Evaluate(options));
+      return new Expansions.WeightedBranch(production.Production.Evaluate(options));
     }
 
     public Expansion EvaluateAt(int index, Options options)

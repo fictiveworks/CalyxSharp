@@ -1,3 +1,6 @@
+using System;
+using System.Diagnostics;
+
 namespace Calyx.Syntax
 {
   public class ExpressionNode : IProduction
@@ -33,7 +36,11 @@ namespace Calyx.Syntax
     public Expansion Evaluate(Options options)
     {
       Expansion eval = registry.Expand(reference).Evaluate(options);
-      return new Expansion(Exp.Expression, eval.Tail);
+      if (eval is Expansions.Branch b) {
+        return b.AsExpression();
+      } else {
+        throw new ArgumentException("should always evaluate to a branch type");
+      }
     }
   }
 }

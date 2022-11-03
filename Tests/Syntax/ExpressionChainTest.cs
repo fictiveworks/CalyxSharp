@@ -14,7 +14,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("ALPHA"));
     }
 
@@ -26,7 +26,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("*ALPHA*"));
     }
 
@@ -38,7 +38,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("5"));
     }
 

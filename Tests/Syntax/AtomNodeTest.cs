@@ -12,8 +12,7 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = atom.Evaluate(new Options());
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Term, Is.EqualTo("T E R M"));
+      Assert.That(exp.Equals(new Expansions.Atom("T E R M")));
     }
   }
 }

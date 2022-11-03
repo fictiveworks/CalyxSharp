@@ -1,5 +1,3 @@
-using System;
-
 namespace Calyx.Syntax
 {
   public class MemoNode : IProduction
@@ -16,7 +14,7 @@ namespace Calyx.Syntax
     public Expansion Evaluate(Options options)
     {
       Expansion eval = registry.MemoizeExpansion(symbol);
-      return new Expansion(Exp.Memo, eval);
+      return new Expansions.Memo(eval);
     }
   }
 }

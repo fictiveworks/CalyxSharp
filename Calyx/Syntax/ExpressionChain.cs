@@ -19,7 +19,7 @@ namespace Calyx.Syntax
     public Expansion Evaluate(Options options)
     {
       Expansion eval = registry.Expand(components[0]).Evaluate(options);
-      string initial =  new Expansion(Exp.Expression, eval.Tail).Flatten().ToString();
+      string initial = eval.Flatten().ToString();
 
       // Dynamic dispatch to string modifiers one after another
       string modified = components
@@ -38,7 +38,7 @@ namespace Calyx.Syntax
           }
         }); 
       
-      return new Expansion(Exp.Expression, new Expansion(Exp.Atom, modified));
+      return new Expansions.Expression(new Expansions.Atom(modified));
     }
   }
 }

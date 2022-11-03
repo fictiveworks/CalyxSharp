@@ -5,28 +5,13 @@ namespace Calyx.Test
 {
   public class ResultTest
   {
-    private static Expansion AtomTemplateTree()
-    {
-      return new Expansion(Exp.Template, new Expansion(Exp.Atom, "A T O M"));
-    }
-
     private static Expansion TripleAtomTemplateTree()
     {
-      return new Expansion(Exp.Template, new List<Expansion>() {
-        new Expansion(Exp.Atom, "O N E"),
-        new Expansion(Exp.Atom, " | "),
-        new Expansion(Exp.Atom, "T W O")
+      return new Expansions.Template(new List<Expansion>() {
+        new Expansions.Atom("O N E"),
+        new Expansions.Atom(" | "),
+        new Expansions.Atom("T W O"),
       });
-    }
-
-    [Test]
-    public void WrapsExpressionTreeTest()
-    {
-      Result result = new Result(AtomTemplateTree());
-
-      Assert.That(result.Tree.Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(result.Tree.Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(result.Tree.Tail[0].Term, Is.EqualTo("A T O M"));
     }
 
     [Test]

@@ -22,9 +22,9 @@ namespace Calyx.Test.Syntax
       Expansion secondExp = secondNode.Evaluate(new Options());
       Expansion thirdExp = thirdNode.Evaluate(new Options());
 
-      string firstTerm = firstExp.Tail[0].Tail[0].Tail[0].Term;
-      string secondTerm = secondExp.Tail[0].Tail[0].Tail[0].Term;
-      string thirdTerm = thirdExp.Tail[0].Tail[0].Tail[0].Term;
+      string firstTerm = firstExp.Flatten().ToString();
+      string secondTerm = secondExp.Flatten().ToString();
+      string thirdTerm = thirdExp.Flatten().ToString();
 
       Assert.That(new[] { firstTerm, secondTerm }, Is.All.EqualTo(thirdTerm));
     }

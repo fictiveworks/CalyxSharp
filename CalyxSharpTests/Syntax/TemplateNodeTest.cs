@@ -1,6 +1,6 @@
 using Calyx.Syntax;
 using NUnit.Framework;
-
+using System.Collections.Generic;
 namespace Calyx.Test.Syntax
 {
   public class TemplateNodeTest
@@ -12,9 +12,7 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = node.Evaluate(new Options());
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[0].Term, Is.EqualTo("one two three"));
+      Assert.That(exp, Is.EqualTo(new Expansions.Template(new Expansions.Atom("one two three"))));
     }
 
     [Test]
@@ -26,16 +24,13 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = node.Evaluate(new Options());
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Expression));
-      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("ONE"));
-      Assert.That(exp.Tail[1].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[1].Term, Is.EqualTo(" two three"));
+      Assert.That(exp, Is.EqualTo(new Expansions.Template(new List<Expansion> {
+        new Expansions.Expression( new Expansions.Template(new Expansions.Atom("ONE"))), 
+        new Expansions.Atom(" two three"),        
+        })));
     }
 
-    [Test]
+    [Test] 
     public void TemplateWithMultipleExpansionsTest()
     {
       Registry registry = new Registry();
@@ -45,48 +40,29 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = node.Evaluate(new Options());
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Expression));
-      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("ONE"));
-      Assert.That(exp.Tail[1].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[1].Term, Is.EqualTo(" "));
-      Assert.That(exp.Tail[2].Symbol, Is.EqualTo(Exp.Expression));
-      Assert.That(exp.Tail[2].Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[2].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[2].Tail[0].Tail[0].Term, Is.EqualTo("TWO"));
-      Assert.That(exp.Tail[3].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[3].Term, Is.EqualTo(" three"));
+      Assert.That(exp, Is.EqualTo(new Expansions.Template(new List<Expansion> {
+        new Expansions.Expression(new Expansions.Template("ONE")),
+        new Expansions.Atom(" "),
+        new Expansions.Expression(new Expansions.Template("TWO")),
+        new Expansions.Atom(" three"),
+      })));
     }
 
     [Test]
     public void TemplateWithSingleMemoExpansion()
     {
-      Registry registry = new Registry();
+      Registry registry = new Registry(new Options(1234));
       registry.DefineRule("one", new[] { "ONE", "One", "1" });
       registry.ResetEvaluationContext();
       TemplateNode node = TemplateNode.Parse("{@one}{@one}{@one}", registry);
 
       Expansion exp = node.Evaluate(new Options());
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Memo));
-      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[1].Symbol, Is.EqualTo(Exp.Memo));
-      Assert.That(exp.Tail[1].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.Tail[1].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[1].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[2].Symbol, Is.EqualTo(Exp.Memo));
-      Assert.That(exp.Tail[2].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.Tail[2].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[2].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
 
-      string firstTerm = exp.Tail[0].Tail[0].Tail[0].Tail[0].Term;
-      string secondTerm = exp.Tail[1].Tail[0].Tail[0].Tail[0].Term;
-      string thirdTerm = exp.Tail[2].Tail[0].Tail[0].Tail[0].Term;
-      Assert.That(new[] { firstTerm, secondTerm }, Is.All.EqualTo(thirdTerm));
+      Assert.That(exp, Is.EqualTo(new Expansions.Template(new List<Expansion> {
+        new Expansions.Memo(new Expansions.UniformBranch(new Expansions.Template("One"))),
+        new Expansions.Memo(new Expansions.UniformBranch(new Expansions.Template("One"))),
+        new Expansions.Memo(new Expansions.UniformBranch(new Expansions.Template("One"))),
+      })));
     }
 
     [Test]
@@ -98,23 +74,12 @@ namespace Calyx.Test.Syntax
       TemplateNode node = TemplateNode.Parse("{$one}{$one}{$one}", registry);
 
       Expansion exp = node.Evaluate(new Options());
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Uniq));
-      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[1].Symbol, Is.EqualTo(Exp.Uniq));
-      Assert.That(exp.Tail[1].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.Tail[1].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[1].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[2].Symbol, Is.EqualTo(Exp.Uniq));
-      Assert.That(exp.Tail[2].Tail[0].Symbol, Is.EqualTo(Exp.UniformBranch));
-      Assert.That(exp.Tail[2].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[2].Tail[0].Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
 
-      Assert.That(exp.Tail[0].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("ONE"));
-      Assert.That(exp.Tail[1].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("One"));
-      Assert.That(exp.Tail[2].Tail[0].Tail[0].Tail[0].Term, Is.EqualTo("1"));
+      Assert.That(exp, Is.EqualTo(new Expansions.Template(new List<Expansion> {
+        new Expansions.Uniq(new Expansions.UniformBranch(new Expansions.Template("ONE"))),
+        new Expansions.Uniq(new Expansions.UniformBranch(new Expansions.Template("One"))),
+        new Expansions.Uniq(new Expansions.UniformBranch(new Expansions.Template("1"))),
+      })));
     }
   }
 }

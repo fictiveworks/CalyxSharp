@@ -13,7 +13,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result, Is.True);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("atom"));
     }
 
@@ -26,7 +26,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result, Is.True);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("atom"));
     }
 
@@ -40,7 +40,7 @@ namespace Calyx.Test
         ["atom"] = new[] { "atom" }
       });
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result, Is.True);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("atom"));
     }
 
@@ -54,7 +54,7 @@ namespace Calyx.Test
         { "atom", new[] { "atom" }}
       });
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result, Is.True);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("atom"));
     }
 
@@ -67,7 +67,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result, Is.True);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("~~~"));
     }
 
@@ -80,7 +80,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result, Is.True);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("bronze;silver;gold"));
     }
   }

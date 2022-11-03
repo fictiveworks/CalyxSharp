@@ -1,5 +1,5 @@
+using Calyx.Expansions;
 using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 
 namespace Calyx.Test
@@ -7,42 +7,70 @@ namespace Calyx.Test
   public class ExpansionTest
   {
     [Test]
-    public void ConstructExpansionTerminalTest()
-    {
-      Expansion exp = new Expansion(Exp.Atom, "T E R M");
-
-      Assert.That(exp.Term, Is.EqualTo("T E R M"));
-    }
-
-    [Test]
-    public void ConstructNestedExpansionTest()
-    {
-      Expansion exp = new Expansion(Exp.Template, new List<Expansion>() {
-        new Expansion(Exp.Atom, "-TAHI-"),
-        new Expansion(Exp.Atom, "-RUA-"),
-        new Expansion(Exp.Atom, "-TORU-")
-      });
-
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Template));
-      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[0].Term, Is.EqualTo("-TAHI-"));
-      Assert.That(exp.Tail[1].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[1].Term, Is.EqualTo("-RUA-"));
-      Assert.That(exp.Tail[2].Symbol, Is.EqualTo(Exp.Atom));
-      Assert.That(exp.Tail[2].Term, Is.EqualTo("-TORU-"));
-    }
-
-    [Test]
     public void FlattenExpansionToAtomsTest()
     {
-      Expansion exp = new Expansion(Exp.Template, new List<Expansion>() {
-        new Expansion(Exp.Atom, "-ONE-"),
-        new Expansion(Exp.Atom, "-TWO-"),
-        new Expansion(Exp.Atom, "-THREE-")
+      Expansion exp = new Expansions.Template(new List<Expansion>() {
+        new Expansions.Atom("-ONE-"),
+        new Expansions.Atom("-TWO-"),
+        new Expansions.Atom("-THREE-"),
       });
 
-      StringBuilder atoms = exp.Flatten();
-      Assert.That(atoms.ToString(), Is.EqualTo("-ONE--TWO--THREE-"));
+      Assert.That(exp.Flatten().ToString(), Is.EqualTo("-ONE--TWO--THREE-"));
+    }
+
+    [Test]
+    public void AtomsThatAreEqual()
+    {
+      Atom atom1 = new Atom("anAtom");
+      Atom atom2 = new Atom("anAtom");
+
+      Assert.That(atom1, Is.EqualTo(atom2));
+    }
+
+    [Test]
+    public void AtomsThatAreUnequal()
+    {
+      Atom atom1 = new Atom("anAtom");
+      Atom atom2 = new Atom("anotherAtom");
+
+      Assert.That(atom1, Is.Not.EqualTo(atom2));
+    }
+
+    [Test]
+    public void BranchesThatAreEqual()
+    {
+      UniformBranch uniform1 = new UniformBranch(new Atom("anAtom"));
+      UniformBranch uniform2 = new UniformBranch(new Atom("anAtom"));
+
+      Assert.That(uniform1, Is.EqualTo(uniform2));
+    }
+
+
+    [Test]
+    public void BranchSubclassesAreDistinct() {
+      UniformBranch uniform = new UniformBranch(new Atom("anAtom"));
+      WeightedBranch weighted = new WeightedBranch(new Atom("anAtom"));
+
+      // NUnit's Is.EqualTo() insists the two will always be unequal even though it's possible
+      // to write an Equals() override that considered them equal. Because this is what we're
+      // explicitly testing, we use this style of Assert to force the test to compile.
+      Assert.That(uniform.Equals(weighted), Is.False);
+    }
+
+    [Test]
+    public void BranchEqualityTestIsDeep() {
+      UniformBranch uniform1 = new UniformBranch(new Atom("anAtom"));
+      UniformBranch uniform2 = new UniformBranch(new Atom("anotherAtom"));
+
+      Assert.That(uniform1, Is.Not.EqualTo(uniform2));
+    }
+
+    [Test]
+    public void OrderOfItemsIsSignificant() {
+      UniformBranch uniform1 = new UniformBranch(new List<Expansion> { new Atom("anAtom"), new Atom("anotherAtom") });
+      UniformBranch uniform2 = new UniformBranch(new List<Expansion> { new Atom("anotherAtom"), new Atom("anAtom") });
+
+      Assert.That(uniform1, Is.Not.EqualTo(uniform2));
     }
   }
 }

@@ -24,13 +24,12 @@ namespace Calyx.Production
     {
       int index = options.Rng.Next(choices.Length);
       Expansion tail = choices[index].Evaluate(options);
-      return new Expansion(Exp.UniformBranch, tail);
+      return new Expansions.UniformBranch(tail);
     }
 
     public Expansion EvaluateAt(int index, Options options)
     {
-      Expansion tail = this.choices[index].Evaluate(options);
-      return new Expansion(Exp.UniformBranch, tail);
+      return new Expansions.UniformBranch(choices[index].Evaluate(options));
     }
 
     public int Length => choices.Length;

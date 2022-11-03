@@ -4,12 +4,12 @@ namespace Calyx.Production
   {
     public Expansion Evaluate(Options options)
     {
-      return new Expansion(Exp.EmptyBranch, new Expansion(Exp.Atom, ""));
+      return new Expansions.EmptyBranch();
     }
 
     public Expansion EvaluateAt(int index, Options options)
     {
-      return new Expansion(Exp.EmptyBranch, new Expansion(Exp.Atom, ""));
+      return new Expansions.EmptyBranch();
     }
 
     public int Length => 1;

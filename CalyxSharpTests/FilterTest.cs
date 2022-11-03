@@ -17,7 +17,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result, Is.True);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("WHANGĀREI"));
     }
 
@@ -29,7 +29,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result, Is.True);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("whangārei"));
     }
 
@@ -41,7 +41,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result, Is.True);
       // TODO: this is .NET's idea of what Title Case means, we need a better implementation
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("New York is in USA. London is in England."));
     }
@@ -54,7 +54,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result, Is.True);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("Texas is in USA. London is in England."));
     }
 
@@ -69,7 +69,7 @@ namespace Calyx.Test
 
       Expansion exp = registry.Evaluate("start");
 
-      Assert.That(exp.Symbol, Is.EqualTo(Exp.Result));
+      Assert.That(exp is Expansions.Result, Is.True);
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("stressed"));
     }
 

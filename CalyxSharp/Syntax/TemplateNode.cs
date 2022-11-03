@@ -55,7 +55,7 @@ namespace Calyx.Syntax
 
     public Expansion Evaluate(Options options)
     {
-      return new Expansion(Exp.Template, concatNodes.Select(syntaxNode => syntaxNode.Evaluate(options)).ToList());
+      return new Expansions.Template(concatNodes.Select(syntaxNode => syntaxNode.Evaluate(options)).ToList());
     }
   }
 }

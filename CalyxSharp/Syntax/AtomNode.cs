@@ -11,7 +11,7 @@ namespace Calyx.Syntax
 
     public Expansion Evaluate(Options options)
     {
-      return new Expansion(Exp.Atom, this.atom);
+      return new Expansions.Atom(atom);
     }
   }
 }

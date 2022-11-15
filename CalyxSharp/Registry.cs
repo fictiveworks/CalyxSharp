@@ -27,6 +27,24 @@ namespace Calyx
       rules[name] = rule;
     }
 
+    public void DefineRule(string name, Dictionary<string, int> productions)
+    {
+      Rule rule = Rule.Build(name, productions, this);
+      rules[name] = rule;
+    }
+
+    public void DefineRule(string name, Dictionary<string, double> productions)
+    {
+      Rule rule = Rule.Build(name, productions, this);
+      rules[name] = rule;
+    }
+
+    public void DefineRule(string name, Dictionary<string, decimal> productions)
+    {
+      Rule rule = Rule.Build(name, productions, this);
+      rules[name] = rule;
+    }
+
     public Expansion Evaluate(string startSymbol)
     {
       ResetEvaluationContext();
@@ -105,8 +123,8 @@ namespace Calyx
         .Where((m) => m.GetCustomAttributes(typeof(FilterNameAttribute), false).Length > 0)
         .Where((m) => m.GetCustomAttribute<FilterNameAttribute>().Name.Equals(label))
         .FirstOrDefault();
-      
-      if (matchedFilter == null) 
+
+      if (matchedFilter == null)
       {
         throw new Calyx.Errors.UndefinedFilter(label);
       }

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Calyx.Production
 {
-  public class WeightedBranch
+  public class WeightedBranch : IProductionBranch
   {
     /* if this constructor is ever made public, hoist the bounds checks from the
      * Parse(Dictionary<string, double>, Registry) convenience init into the constructor */
@@ -32,12 +32,20 @@ namespace Calyx.Production
       return new Expansion(Exp.WeightedBranch, production.Production.Evaluate(options));
     }
 
+    public Expansion EvaluateAt(int index, Options options)
+    {
+      Expansion tail = productions[index].Production.Evaluate(options);
+      return new Expansion(Exp.WeightedBranch, tail);
+    }
+
+    public int Length => productions.Length;
+
     /* Until C# 7, which will allow generic types to constrained to `INumber`, we'll support
      * the different numeric types by providing a convenience init for each of them */
 
     public static WeightedBranch Parse(Dictionary<string, int> choices, Registry registry)
     {
-      WeightedProduction[] weightedProductions = choices.Select(choice => new WeightedProduction { 
+      WeightedProduction[] weightedProductions = choices.Select(choice => new WeightedProduction {
         Production = Syntax.TemplateNode.Parse(choice.Key, registry),
         Weight = choice.Value,
       }).ToArray();

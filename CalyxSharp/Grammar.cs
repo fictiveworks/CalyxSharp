@@ -86,6 +86,24 @@ namespace Calyx
       return this;
     }
 
+    public Grammar Start(Dictionary<string, int> productions)
+    {
+      registry.DefineRule("start", productions);
+      return this;
+    }
+
+    public Grammar Start(Dictionary<string, double> productions)
+    {
+      registry.DefineRule("start", productions);
+      return this;
+    }
+
+    public Grammar Start(Dictionary<string, decimal> productions)
+    {
+      registry.DefineRule("start", productions);
+      return this;
+    }
+
     public Grammar Rule(string name, string[] productions)
     {
       registry.DefineRule(name, productions);
@@ -95,6 +113,24 @@ namespace Calyx
     public Grammar Rule(string name, string production)
     {
       registry.DefineRule(name, new[] { production });
+      return this;
+    }
+
+    public Grammar Rule(string name, Dictionary<string, int> productions)
+    {
+      registry.DefineRule(name, productions);
+      return this;
+    }
+
+    public Grammar Rule(string name, Dictionary<string, double> productions)
+    {
+      registry.DefineRule(name, productions);
+      return this;
+    }
+
+    public Grammar Rule(string name, Dictionary<string, decimal> productions)
+    {
+      registry.DefineRule(name, productions);
       return this;
     }
 

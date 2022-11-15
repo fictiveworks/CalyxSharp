@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Calyx.Production;
 
 namespace Calyx
@@ -16,6 +17,24 @@ namespace Calyx
     public static Rule Build(string term, string[] productions, Registry registry)
     {
       IProductionBranch branch = UniformBranch.Parse(productions, registry);
+      return new Rule(term, branch);
+    }
+
+    public static Rule Build(string term, Dictionary<string, int> productions, Registry registry)
+    {
+      IProductionBranch branch = WeightedBranch.Parse(productions, registry);
+      return new Rule(term, branch);
+    }
+
+    public static Rule Build(string term, Dictionary<string, double> productions, Registry registry)
+    {
+      IProductionBranch branch = WeightedBranch.Parse(productions, registry);
+      return new Rule(term, branch);
+    }
+
+    public static Rule Build(string term, Dictionary<string, decimal> productions, Registry registry)
+    {
+      IProductionBranch branch = WeightedBranch.Parse(productions, registry);
       return new Rule(term, branch);
     }
 

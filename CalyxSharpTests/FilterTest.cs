@@ -33,6 +33,7 @@ namespace Calyx.Test
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("whangārei"));
     }
 
+    [Ignore("not properly implemented yet")]
     [Test]
     public void TitleCase() {
       Registry registry = new Registry();
@@ -46,6 +47,7 @@ namespace Calyx.Test
       Assert.That(exp.Flatten().ToString(), Is.EqualTo("New York is in USA. London is in England."));
     }
 
+    [Ignore("not properly implmented yet")]
     [Test]
     public void SentenceCase() {
       Registry registry = new Registry();

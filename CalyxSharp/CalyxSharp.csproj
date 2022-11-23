@@ -1,11 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>0.3.0.0</AssemblyVersion>
+    <Version>0.3.0</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Copyright>Copyright © 2021 Fictiveworks</Copyright>
     <Title>Calyx</Title>
+    <PackageId>Calyx</PackageId>
+    <Description>Generative text processing for C# and Unity applications.</Description>
+    <Company>Fictiveworks Limited</Company>
+    <Authors>Mark Rickerby</Authors>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/fictiveworks/CalyxSharp</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="AssembyInfo.cs" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>

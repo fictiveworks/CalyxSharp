@@ -10,7 +10,7 @@
     <Company>Fictiveworks Limited</Company>
     <Authors>Mark Rickerby</Authors>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/fictiveworks/CalyxSharp</RepositoryUrl>
+    <PrivateRepositoryUrl>https://github.com/fictiveworks/CalyxSharp</PrivateRepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>

@@ -13,6 +13,6 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CalyxSharp\CalyxSharp.csproj" />
+    <ProjectReference Include="..\Calyx\Calyx.csproj" />
   </ItemGroup>
 </Project>

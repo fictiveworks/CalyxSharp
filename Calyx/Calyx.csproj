@@ -12,6 +12,9 @@
     <RepositoryType>git</RepositoryType>
     <PrivateRepositoryUrl>https://github.com/fictiveworks/CalyxSharp</PrivateRepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PropertyGroup>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="AssembyInfo.cs" />

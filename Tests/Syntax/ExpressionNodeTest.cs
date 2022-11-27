@@ -15,10 +15,10 @@ namespace Calyx.Test.Syntax
 
       Expansion exp = expression.Evaluate(new Options());
 
-      Assert.AreEqual(Exp.Expression, exp.Symbol);
-      Assert.AreEqual(Exp.Template, exp.Tail[0].Symbol);
-      Assert.AreEqual(Exp.Atom, exp.Tail[0].Tail[0].Symbol);
-      Assert.AreEqual("T E R M", exp.Tail[0].Tail[0].Term);
+      Assert.That(exp.Symbol, Is.EqualTo(Exp.Expression));
+      Assert.That(exp.Tail[0].Symbol, Is.EqualTo(Exp.Template));
+      Assert.That(exp.Tail[0].Tail[0].Symbol, Is.EqualTo(Exp.Atom));
+      Assert.That(exp.Tail[0].Tail[0].Term, Is.EqualTo("T E R M"));
     }
   }
 }

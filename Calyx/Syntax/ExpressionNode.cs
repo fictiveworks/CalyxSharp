@@ -35,5 +35,10 @@ namespace Calyx.Syntax
       Expansion eval = registry.Expand(reference).Evaluate(options);
       return new Expansion(Exp.Expression, eval.Tail);
     }
+    
+    public static bool IsSigil(char character)
+    {
+      return character == MEMO_SIGIL || character == UNIQUE_SIGIL;
+    }
   }
 }

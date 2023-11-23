@@ -7,23 +7,25 @@ namespace Calyx.Syntax
 {
   public class ExpressionChain : IProduction
   {
+    private string ruleName;
     private string[] components;
     private Registry registry;
 
-    public ExpressionChain(string[] components, Registry registry)
+    public ExpressionChain(string ruleName, string[] components, Registry registry)
     {
+      RemoveSigil(ref ruleName);
+      this.ruleName = ruleName;
       this.registry = registry;
-      this.components = components;
+      this.components = components.Skip(1).ToArray();
     }
 
     public Expansion Evaluate(Options options)
     {
-      Expansion eval = registry.Expand(components[0]).Evaluate(options);
+      Expansion eval = registry.Expand(ruleName).Evaluate(options);
       string initial =  new Expansion(Exp.Expression, eval.Tail).Flatten().ToString();
 
       // Dynamic dispatch to string modifiers one after another
       string modified = components
-        .Skip(1)
         .Aggregate(initial, (accumulator, filterName) => {
           try {
             return registry.GetFilterComponent(filterName).Invoke(accumulator);
@@ -39,6 +41,14 @@ namespace Calyx.Syntax
         }); 
       
       return new Expansion(Exp.Expression, new Expansion(Exp.Atom, modified));
+    }
+
+    private static void RemoveSigil(ref string ruleName)
+    {
+      if (ExpressionNode.IsSigil(ruleName[0]))
+      {
+        ruleName = ruleName.Substring(1);
+      }
     }
   }
 }

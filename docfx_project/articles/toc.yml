@@ -1,0 +1,8 @@
+- name: Configuring the PRNG
+  href: configuring-the-prng.md
+- name: Defining Grammar Rules
+  href: defining-grammar-rules.md
+- name: Generating Results
+  href: generating-results.md
+- name: Other Features
+  href: other-features.md

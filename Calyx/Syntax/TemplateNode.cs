@@ -33,7 +33,7 @@ namespace Calyx.Syntax
           // Check if we have a post-processing chain
           if (components.Length > 1) {
             // Generate a chained expression headed by a non-terminal
-            concatNodes.Add(new ExpressionChain(components, registry));
+            concatNodes.Add(new ExpressionChain(components[0], components, registry));
           } else {
             // Generate a standalone non-terminal expression
             concatNodes.Add(ExpressionNode.Parse(components[0], registry));

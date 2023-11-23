@@ -99,6 +99,16 @@ namespace Calyx.Test
       Assert.Throws<IncorrectFilterSignature>(() => registry.Evaluate("start"));
     }
 
+    [Test]
+    public void FiltersApplyToMemoizedRules() {
+      Registry registry = new Registry(new Options(seed: 1234));
+      
+      registry.DefineRule("start", new [] { "{$names.uppercase}" });
+      registry.DefineRule("names", new [] { "Jewels" } );
+      
+      Assert.That(registry.Evaluate("start").Flatten().ToString(), Is.EqualTo("JEWELS"));
+    }
+
     internal static class TestFilter {
       [FilterName("backwards")]
       public static string Backwards(string input, Options options) {
